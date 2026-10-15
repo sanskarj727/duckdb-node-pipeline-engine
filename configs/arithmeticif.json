@@ -1,0 +1,173 @@
+{
+  "id": "demo-summarize-if-001",
+  "name": "Summarize with IF variants (datecheck.csv)",
+  "type": "experiment",
+  "runScope": "device",
+  "version": 1,
+  "createdBy": "guest",
+  "dataSources": [
+    {
+      "id": "src-datecheck",
+      "version": 1,
+      "name": "datecheck.csv",
+      "providerInfo": {
+        "connectionInfo": {
+          "type": "file",
+          "filePath": "data/datecheck.csv",
+          "fileType": "csv",
+          "delimiter": ","
+        }
+      },
+      "elementType": "data-source",
+      "contentInfo": {},
+      "config": [
+        { "type": "source", "portId": "p-src-out", "actionId": "src-datecheck", "schema": "s-raw", "name": "datecheck csv", "outputName": "datecheck csv" }
+      ]
+    }
+  ],
+  "dataFlows": {
+    "flow": {
+      "executionSide": "client",
+      "elementType": "data-flow",
+      "actionType": "flow",
+      "id": "flow-summarize",
+      "version": 1,
+      "name": "",
+      "inputs": [],
+      "outputs": [],
+      "config": [],
+      "sources": [
+        {
+          "id": "src-datecheck",
+          "version": 1,
+          "name": "datecheck.csv",
+          "title": "datecheck.csv",
+          "elementType": "action",
+          "actionType": "source",
+          "config": [
+            { "type": "source", "portId": "p-src-out", "actionId": "src-datecheck", "schema": "s-raw", "name": "datecheck csv", "outputName": "datecheck csv" }
+          ],
+          "inputs": [],
+          "outputs": [
+            { "id": "p-src-out", "name": "datecheck csv", "elementType": "port", "portType": "output", "schema": "s-raw" }
+          ],
+          "portType": "input"
+        }
+      ],
+      "schemaDictionary": {
+        "s-raw": {
+          "id": "s-raw",
+          "version": 1,
+          "elementType": "data-table",
+          "name": "raw",
+          "fields": [
+            { "id": "Name", "elementType": "data-field", "name": "Name", "datatype": "string", "usage": { "type": "category" }, "index": 0 },
+            { "id": "Department", "elementType": "data-field", "name": "Department", "datatype": "string", "usage": { "type": "category" }, "index": 1 },
+            { "id": "City", "elementType": "data-field", "name": "City", "datatype": "string", "usage": { "type": "category" }, "index": 2 },
+            { "id": "Age", "elementType": "data-field", "name": "Age", "datatype": "integer", "usage": { "type": "measure" }, "index": 3 },
+            { "id": "MonthlyIncome", "elementType": "data-field", "name": "MonthlyIncome", "datatype": "integer", "usage": { "type": "measure" }, "index": 4 },
+            { "id": "Attrition", "elementType": "data-field", "name": "Attrition", "datatype": "boolean", "usage": { "type": "category" }, "index": 5 },
+            { "id": "JoinDate", "elementType": "data-field", "name": "JoinDate", "datatype": "date", "usage": { "type": "time" }, "index": 6 }
+          ]
+        },
+        "s-by-dept": {
+          "id": "s-by-dept",
+          "version": 1,
+          "elementType": "data-table",
+          "name": "by_dept",
+          "fields": [
+            { "id": "Department", "elementType": "data-field", "name": "Department", "datatype": "string", "usage": { "type": "category" }, "index": 0 },
+            { "id": "TotalIncome", "elementType": "data-field", "name": "TotalIncome", "datatype": "double", "usage": { "type": "measure" }, "index": 1 },
+            { "id": "AvgIncome", "elementType": "data-field", "name": "AvgIncome", "datatype": "double", "usage": { "type": "measure" }, "index": 2 },
+            { "id": "EmpCount", "elementType": "data-field", "name": "EmpCount", "datatype": "integer", "usage": { "type": "measure" }, "index": 3 },
+            { "id": "DistinctCities", "elementType": "data-field", "name": "DistinctCities", "datatype": "integer", "usage": { "type": "measure" }, "index": 4 },
+            { "id": "Churned", "elementType": "data-field", "name": "Churned", "datatype": "integer", "usage": { "type": "measure" }, "index": 5 },
+            { "id": "ChurnedIncome", "elementType": "data-field", "name": "ChurnedIncome", "datatype": "double", "usage": { "type": "measure" }, "index": 6 },
+            { "id": "AvgActiveIncome", "elementType": "data-field", "name": "AvgActiveIncome", "datatype": "double", "usage": { "type": "measure" }, "index": 7 }
+          ]
+        },
+        "s-overall": {
+          "id": "s-overall",
+          "version": 1,
+          "elementType": "data-table",
+          "name": "overall",
+          "fields": [
+            { "id": "TotalIncome", "elementType": "data-field", "name": "TotalIncome", "datatype": "double", "usage": { "type": "measure" }, "index": 0 },
+            { "id": "AvgIncome", "elementType": "data-field", "name": "AvgIncome", "datatype": "double", "usage": { "type": "measure" }, "index": 1 },
+            { "id": "EmpCount", "elementType": "data-field", "name": "EmpCount", "datatype": "integer", "usage": { "type": "measure" }, "index": 2 },
+            { "id": "Churned", "elementType": "data-field", "name": "Churned", "datatype": "integer", "usage": { "type": "measure" }, "index": 3 },
+            { "id": "ChurnedIncome", "elementType": "data-field", "name": "ChurnedIncome", "datatype": "double", "usage": { "type": "measure" }, "index": 4 },
+            { "id": "AvgActiveIncome", "elementType": "data-field", "name": "AvgActiveIncome", "datatype": "double", "usage": { "type": "measure" }, "index": 5 }
+          ]
+        }
+      },
+      "flowModel": {
+        "actions": [
+          {
+            "elementType": "action",
+            "actionType": "summarize",
+            "title": "Summarize by Department",
+            "id": "a-sum-dept",
+            "version": 1,
+            "inputs": [
+              { "id": "p-sum1-in", "version": 1, "itemType": "port", "elementType": "port", "portType": "input", "schema": "s-raw", "index": 0, "parent": "a-sum-dept", "name": "datecheck csv" }
+            ],
+            "outputs": [
+              { "id": "p-sum1-out", "name": "by_dept", "elementType": "port", "portType": "output", "schema": "s-by-dept" }
+            ],
+            "config": [
+              {
+                "type": "summarize",
+                "groupFields": ["Department"],
+                "summaryFields": [
+                  { "aggFunction": "sum", "sourceFieldId": "MonthlyIncome", "newFieldName": "TotalIncome" },
+                  { "aggFunction": "average", "sourceFieldId": "MonthlyIncome", "newFieldName": "AvgIncome" },
+                  { "aggFunction": "count", "sourceFieldId": "Name", "newFieldName": "EmpCount" },
+                  { "aggFunction": "count_distinct", "sourceFieldId": "City", "newFieldName": "DistinctCities" },
+                  { "aggFunction": "countif", "sourceFieldId": "*", "condition": "Attrition=TRUE", "newFieldName": "Churned" },
+                  { "aggFunction": "sumif", "sourceFieldId": "MonthlyIncome", "condition": "Attrition=TRUE", "newFieldName": "ChurnedIncome" },
+                  { "aggFunction": "averageif", "sourceFieldId": "MonthlyIncome", "condition": "Attrition=FALSE", "newFieldName": "AvgActiveIncome" }
+                ]
+              }
+            ]
+          },
+          {
+            "elementType": "action",
+            "actionType": "summarize",
+            "title": "Summarize Overall (no group)",
+            "id": "a-sum-overall",
+            "version": 1,
+            "inputs": [
+              { "id": "p-sum2-in", "version": 1, "itemType": "port", "elementType": "port", "portType": "input", "schema": "s-raw", "index": 0, "parent": "a-sum-overall", "name": "datecheck csv" }
+            ],
+            "outputs": [
+              { "id": "p-sum2-out", "name": "overall", "elementType": "port", "portType": "output", "schema": "s-overall" }
+            ],
+            "config": [
+              {
+                "type": "summarize",
+                "groupFields": [],
+                "summaryFields": [
+                  { "aggFunction": "sum", "sourceFieldId": "MonthlyIncome", "newFieldName": "TotalIncome" },
+                  { "aggFunction": "average", "sourceFieldId": "MonthlyIncome", "newFieldName": "AvgIncome" },
+                  { "aggFunction": "count", "sourceFieldId": "Name", "newFieldName": "EmpCount" },
+                  { "aggFunction": "countif", "sourceFieldId": "*", "condition": "Attrition=TRUE", "newFieldName": "Churned" },
+                  { "aggFunction": "sumif", "sourceFieldId": "MonthlyIncome", "condition": "Attrition=TRUE", "newFieldName": "ChurnedIncome" },
+                  { "aggFunction": "averageif", "sourceFieldId": "MonthlyIncome", "condition": "Attrition=FALSE", "newFieldName": "AvgActiveIncome" }
+                ]
+              }
+            ]
+          }
+        ],
+        "connections": [
+          { "id": "c1", "version": 1, "elementType": "connection", "name": "", "target": { "action": "a-sum-dept", "input": "p-sum1-in" }, "source": { "action": "src-datecheck", "output": "p-src-out" } },
+          { "id": "c2", "version": 1, "elementType": "connection", "name": "", "target": { "action": "a-sum-overall", "input": "p-sum2-in" }, "source": { "action": "src-datecheck", "output": "p-src-out" } }
+        ]
+      }
+    }
+  },
+  "flowInputMappings": [],
+  "studies": [
+    { "elementType": "viewItem", "itemType": "view", "id": "view-1", "name": "study1", "order": 0, "width": 1920, "height": 1080, "elements": [] }
+  ]
+}

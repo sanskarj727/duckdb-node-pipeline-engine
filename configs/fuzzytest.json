@@ -1,0 +1,116 @@
+{
+  "id": "fuzzy-test-pipeline",
+  "name": "Fuzzy Detection Demo",
+  "type": "experiment",
+  "runScope": "device",
+  "version": 1,
+  "createdBy": "guest",
+  "dataSources": [
+    {
+      "id": "src-1",
+      "version": 1,
+      "name": "fuzzytest",
+      "providerInfo": {
+        "connectionInfo": {
+          "type": "file",
+          "filePath": "data/fuzzytest.csv",
+          "fileType": "csv",
+          "delimiter": ","
+        }
+      },
+      "elementType": "data-source",
+      "contentInfo": {},
+      "config": [
+        {
+          "type": "source",
+          "portId": "p-src-out",
+          "actionId": "src-1",
+          "schema": "s-raw",
+          "name": "fuzzytest",
+          "outputName": "fuzzytest"
+        }
+      ]
+    }
+  ],
+  "dataFlows": {
+    "flow": {
+      "executionSide": "client",
+      "elementType": "data-flow",
+      "actionType": "flow",
+      "id": "flow-fuzzy",
+      "version": 1,
+      "name": "",
+      "inputs": [],
+      "outputs": [],
+      "config": [],
+      "sources": [
+        {
+          "id": "src-1",
+          "version": 1,
+          "name": "fuzzytest",
+          "title": "fuzzytest",
+          "elementType": "action",
+          "actionType": "source",
+          "config": [
+            { "type": "source", "portId": "p-src-out", "actionId": "src-1", "schema": "s-raw", "name": "fuzzytest", "outputName": "fuzzytest" }
+          ],
+          "inputs": [],
+          "outputs": [
+            { "id": "p-src-out", "name": "fuzzytest", "elementType": "port", "portType": "output", "schema": "s-raw" }
+          ],
+          "portType": "input"
+        }
+      ],
+      "schemaDictionary": {
+        "s-raw": {
+          "id": "s-raw",
+          "version": 1,
+          "elementType": "data-table",
+          "name": "raw",
+          "fields": [
+            { "id": "rowid", "elementType": "data-field", "name": "rowid", "datatype": "integer", "index": 0 },
+            { "id": "player_of_match", "elementType": "data-field", "name": "player_of_match", "datatype": "string", "index": 1 }
+          ]
+        },
+        "s-fuzzy": {
+          "id": "s-fuzzy",
+          "version": 1,
+          "elementType": "data-table",
+          "name": "fuzzy",
+          "fields": [
+            { "id": "rowid", "elementType": "data-field", "name": "rowid", "datatype": "integer", "index": 0 },
+            { "id": "player_of_match", "elementType": "data-field", "name": "player_of_match", "datatype": "string", "index": 1 },
+            { "id": "fuzzy_similarity", "elementType": "data-field", "name": "fuzzy_similarity", "datatype": "number", "index": 2 },
+            { "id": "most_similar", "elementType": "data-field", "name": "most_similar", "datatype": "string", "index": 3 }
+          ]
+        }
+      },
+      "flowModel": {
+        "actions": [
+          {
+            "elementType": "action",
+            "actionType": "fuzzy-detect",
+            "title": "Fuzzy Detect Players",
+            "id": "a-fuzzy",
+            "version": 1,
+            "inputs": [
+              { "id": "p-fuzzy-in", "portType": "input", "schema": "s-raw", "name": "fuzzytest" }
+            ],
+            "outputs": [
+              { "id": "p-fuzzy-out", "name": "fuzzyed", "portType": "output", "schema": "s-fuzzy" }
+            ],
+            "config": {
+              "column": "player_of_match",
+              "output_col": "fuzzy_similarity",
+              "label_col": "most_similar",
+              "threshold": 0.5
+            }
+          }
+        ],
+        "connections": [
+          { "id": "c1", "version": 1, "elementType": "connection", "name": "", "target": { "action": "a-fuzzy", "input": "p-fuzzy-in" }, "source": { "action": "src-1", "output": "p-src-out" } }
+        ]
+      }
+    }
+  }
+}

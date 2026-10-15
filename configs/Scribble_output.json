@@ -1,0 +1,88 @@
+{
+  "nodes": [
+    {
+      "nodeId": "7d28172e-b1a8-4862-97f7-3107eced0b08",
+      "type": "source",
+      "inputs": [],
+      "output": "matches_csv",
+      "sql": "create or replace table matches_csv as from read_csv('matches.csv', header=True, AUTO_DETECT=TRUE, delim=',')",
+      "config": {
+        "fileType": "csv",
+        "delimiter": ","
+      }
+    },
+    {
+      "nodeId": "uIIOrAr0",
+      "type": "select-fields",
+      "inputs": [
+        "<input_table>"
+      ],
+      "output": "select_4ddae5f2",
+      "sql": "create or replace table select_4ddae5f2 as select season, match_type, player_of_match, venue, team1, team2, toss_winner, winner, toss_decision, target_runs, target_overs, result from <input_table>",
+      "config": [
+        {
+          "type": "select-fields",
+          "portId": "uIIOrAr2",
+          "actionId": "uIIOrAr0",
+          "outputName": "matches csv",
+          "schema": "uIIOrAr3",
+          "fieldSelection": [
+            "season",
+            "match_type",
+            "player_of_match",
+            "venue",
+            "team1",
+            "team2",
+            "toss_winner",
+            "winner",
+            "toss_decision",
+            "target_runs",
+            "target_overs",
+            "result"
+          ],
+          "hide": false
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "sourceAction": "7d28172e-b1a8-4862-97f7-3107eced0b08",
+      "sourcePort": "uIIOoGE0",
+      "targetAction": "uIIOrAr0",
+      "targetPort": "uIIOrAr1"
+    },
+    {
+      "sourceAction": "uIIOrAr0",
+      "sourcePort": "uIIOrAr2",
+      "targetAction": "uIIOCij0",
+      "targetPort": "uIIOCij1"
+    },
+    {
+      "sourceAction": "uIIOCij0",
+      "sourcePort": "uIIOCij2",
+      "targetAction": "uIIP5Ea0",
+      "targetPort": "uIIP5Ea1"
+    },
+    {
+      "sourceAction": "uIIP5Ea0",
+      "sourcePort": "uIIP5Ea2",
+      "targetAction": "uIIPo2a0",
+      "targetPort": "uIIPo2a1"
+    },
+    {
+      "sourceAction": "uIIPo2a0",
+      "sourcePort": "uIIPo2a2",
+      "targetAction": "uIIPBp90",
+      "targetPort": "uIIPBp91"
+    }
+  ],
+  "metadata": {
+    "experimentId": "2e2d529f-6e4c-4db1-8ed3-28683c8dbb79",
+    "experimentName": "IPL Standing",
+    "experimentVersion": 1,
+    "flowId": "70c89324-ee17-49fb-8df0-e900ff245de1",
+    "flowName": "",
+    "flowVersion": 1
+  }
+}

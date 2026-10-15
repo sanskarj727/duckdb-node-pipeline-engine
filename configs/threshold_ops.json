@@ -1,0 +1,213 @@
+{
+  "id": "demo-missing-threshold-clean",
+  "name": "Demo: missing-threshold clean (fixed dropnulls)",
+  "type": "experiment",
+  "runScope": "device",
+  "version": 1,
+  "dataSources": [
+    {
+      "id": "ds_missing_thr_csv",
+      "version": 1,
+      "name": "missing_threshold_test.csv",
+      "elementType": "data-source",
+      "providerInfo": {
+        "connectionInfo": {
+          "type": "file",
+          "filePath": "data/missing_threshold_test.csv",
+          "fileType": "csv",
+          "delimiter": ","
+        }
+      },
+      "config": [
+        {
+          "type": "source",
+          "portId": "p_src_out",
+          "actionId": "ds_missing_thr_csv",
+          "schema": "sch_raw",
+          "name": "missing threshold csv",
+          "outputName": "missing threshold csv"
+        }
+      ]
+    }
+  ],
+  "dataFlows": {
+    "flow": {
+      "executionSide": "client",
+      "elementType": "data-flow",
+      "actionType": "flow",
+      "id": "flow_missing_thr",
+      "version": 1,
+      "sources": [
+        {
+          "id": "ds_missing_thr_csv",
+          "version": 1,
+          "name": "missing_threshold_test.csv",
+          "title": "missing_threshold_test.csv",
+          "elementType": "action",
+          "actionType": "source",
+          "config": [
+            {
+              "type": "source",
+              "portId": "p_src_out",
+              "actionId": "ds_missing_thr_csv",
+              "schema": "sch_raw",
+              "name": "missing threshold csv",
+              "outputName": "missing threshold csv"
+            }
+          ],
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "p_src_out",
+              "name": "missing threshold csv",
+              "elementType": "port",
+              "portType": "output",
+              "schema": "sch_raw"
+            }
+          ],
+          "portType": "input"
+        }
+      ],
+      "schemaDictionary": {
+        "sch_raw": {
+          "id": "sch_raw",
+          "version": 1,
+          "elementType": "data-table",
+          "name": "raw",
+          "fields": [
+            { "id": "id", "elementType": "data-field", "name": "id", "datatype": "number", "usage": { "type": "measure" }, "index": 0 },
+            { "id": "grp", "elementType": "data-field", "name": "grp", "datatype": "string", "usage": { "type": "category" }, "index": 1 },
+            { "id": "a", "elementType": "data-field", "name": "a", "datatype": "number", "usage": { "type": "measure" }, "index": 2 },
+            { "id": "b", "elementType": "data-field", "name": "b", "datatype": "number", "usage": { "type": "measure" }, "index": 3 },
+            { "id": "c", "elementType": "data-field", "name": "c", "datatype": "string", "usage": { "type": "category" }, "index": 4 },
+            { "id": "d", "elementType": "data-field", "name": "d", "datatype": "string", "usage": { "type": "category" }, "index": 5 },
+            { "id": "e", "elementType": "data-field", "name": "e", "datatype": "string", "usage": { "type": "category" }, "index": 6 }
+          ]
+        },
+        "sch_cleaned": {
+          "id": "sch_cleaned",
+          "version": 1,
+          "elementType": "data-table",
+          "name": "cleaned",
+          "baseSchemaId": "sch_raw",
+          "fields": []
+        }
+      },
+      "flowModel": {
+        "actions": [
+          {
+            "elementType": "action",
+            "actionType": "drop-rows-missing-threshold",
+            "title": "drop rows missing threshold",
+            "id": "act_drop_rows_missing_thr",
+            "version": 1,
+            "inputs": [
+              {
+                "id": "p_drop_rows_in",
+                "version": 1,
+                "itemType": "port",
+                "elementType": "port",
+                "portType": "input",
+                "schema": "sch_raw",
+                "index": 0,
+                "parent": "act_drop_rows_missing_thr",
+                "name": "missing threshold csv"
+              }
+            ],
+            "outputs": [
+              {
+                "id": "p_drop_rows_out",
+                "name": "after drop rows",
+                "elementType": "port",
+                "portType": "output",
+                "schema": "sch_raw"
+              }
+            ],
+            "config": [
+              {
+                "type": "drop-rows-missing-threshold",
+                "portId": "p_drop_rows_out",
+                "actionId": "act_drop_rows_missing_thr",
+                "outputName": "after drop rows",
+                "schema": "sch_raw",
+                "threshold": 0.7,
+                "subset": ["a", "b", "c"]
+              }
+            ]
+          },
+          {
+            "elementType": "action",
+            "actionType": "drop-cols-missing-threshold",
+            "title": "drop cols missing threshold",
+            "id": "act_drop_cols_missing_thr",
+            "version": 1,
+            "inputs": [
+              {
+                "id": "p_drop_cols_in",
+                "version": 1,
+                "itemType": "port",
+                "elementType": "port",
+                "portType": "input",
+                "schema": "sch_raw",
+                "index": 0,
+                "parent": "act_drop_cols_missing_thr",
+                "name": "after drop rows"
+              }
+            ],
+            "outputs": [
+              {
+                "id": "p_drop_cols_out",
+                "name": "clean out",
+                "elementType": "port",
+                "portType": "output",
+                "schema": "sch_cleaned"
+              }
+            ],
+            "config": [
+              {
+                "type": "drop-cols-missing-threshold",
+                "portId": "p_drop_cols_out",
+                "actionId": "act_drop_cols_missing_thr",
+                "outputName": "clean out",
+                "schema": "sch_cleaned",
+                "threshold": 0.4,
+                "columns": ["a", "b", "c", "d", "e"],
+                "keepOthers": true
+              }
+            ]
+          }
+        ],
+        "connections": [
+          {
+            "id": "c1",
+            "version": 1,
+            "elementType": "connection",
+            "name": "",
+            "target": { "action": "act_drop_rows_missing_thr", "input": "p_drop_rows_in" },
+            "source": { "action": "ds_missing_thr_csv", "output": "p_src_out" }
+          },
+          {
+            "id": "c2",
+            "version": 1,
+            "elementType": "connection",
+            "name": "",
+            "target": { "action": "act_drop_cols_missing_thr", "input": "p_drop_cols_in" },
+            "source": { "action": "act_drop_rows_missing_thr", "output": "p_drop_rows_out" }
+          }
+        ]
+      }
+    }
+  },
+  "studies": [
+    {
+      "elementType": "viewItem",
+      "itemType": "view",
+      "id": "study_missing_thr",
+      "name": "study1",
+      "order": 0,
+      "width": 1920,
+      "height": 1080,
+      "elements": []
+    }
+  ]
+}

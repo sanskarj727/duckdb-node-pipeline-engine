@@ -1,0 +1,243 @@
+{
+  "id": "demo-datecheck-001",
+  "name": "Date & Text Ops Demo (datecheck.csv)",
+  "type": "experiment",
+  "runScope": "device",
+  "version": 1,
+  "createdBy": "guest",
+  "dataSources": [
+    {
+      "id": "src-datecheck",
+      "version": 1,
+      "name": "datecheck.csv",
+      "providerInfo": {
+        "connectionInfo": {
+          "type": "file",
+          "filePath": "data/datecheck.csv",
+          "fileType": "csv",
+          "delimiter": ","
+        }
+      },
+      "elementType": "data-source",
+      "contentInfo": {},
+      "config": [
+        { "type": "source", "portId": "p-src-out", "actionId": "src-datecheck", "schema": "s-raw", "name": "datecheck csv", "outputName": "datecheck csv" }
+      ]
+    }
+  ],
+  "dataFlows": {
+    "flow": {
+      "executionSide": "client",
+      "elementType": "data-flow",
+      "actionType": "flow",
+      "id": "flow-datecheck",
+      "version": 1,
+      "name": "",
+      "inputs": [],
+      "outputs": [],
+      "config": [],
+      "sources": [
+        {
+          "id": "src-datecheck",
+          "version": 1,
+          "name": "datecheck.csv",
+          "title": "datecheck.csv",
+          "elementType": "action",
+          "actionType": "source",
+          "config": [
+            { "type": "source", "portId": "p-src-out", "actionId": "src-datecheck", "schema": "s-raw", "name": "datecheck csv", "outputName": "datecheck csv" }
+          ],
+          "inputs": [],
+          "outputs": [
+            { "id": "p-src-out", "name": "datecheck csv", "elementType": "port", "portType": "output", "schema": "s-raw" }
+          ],
+          "portType": "input"
+        }
+      ],
+      "schemaDictionary": {
+        "s-raw": {
+          "id": "s-raw",
+          "version": 1,
+          "elementType": "data-table",
+          "name": "raw",
+          "fields": [
+            { "id": "Name", "elementType": "data-field", "name": "Name", "datatype": "string", "usage": { "type": "category" }, "index": 0 },
+            { "id": "Department", "elementType": "data-field", "name": "Department", "datatype": "string", "usage": { "type": "category" }, "index": 1 },
+            { "id": "City", "elementType": "data-field", "name": "City", "datatype": "string", "usage": { "type": "category" }, "index": 2 },
+            { "id": "Age", "elementType": "data-field", "name": "Age", "datatype": "integer", "usage": { "type": "measure" }, "index": 3 },
+            { "id": "MonthlyIncome", "elementType": "data-field", "name": "MonthlyIncome", "datatype": "integer", "usage": { "type": "measure" }, "index": 4 },
+            { "id": "Attrition", "elementType": "data-field", "name": "Attrition", "datatype": "boolean", "usage": { "type": "category" }, "index": 5 },
+            { "id": "JoinDate", "elementType": "data-field", "name": "JoinDate", "datatype": "date", "usage": { "type": "time" }, "index": 6 }
+          ]
+        },
+        "s-selected": {
+          "id": "s-selected",
+          "version": 1,
+          "elementType": "data-table",
+          "name": "selected",
+          "fields": [
+            { "id": "Name", "elementType": "data-field", "name": "Name", "datatype": "string", "usage": { "type": "category" }, "index": 0 },
+            { "id": "Department", "elementType": "data-field", "name": "Department", "datatype": "string", "usage": { "type": "category" }, "index": 1 },
+            { "id": "City", "elementType": "data-field", "name": "City", "datatype": "string", "usage": { "type": "category" }, "index": 2 },
+            { "id": "Age", "elementType": "data-field", "name": "Age", "datatype": "integer", "usage": { "type": "measure" }, "index": 3 },
+            { "id": "MonthlyIncome", "elementType": "data-field", "name": "MonthlyIncome", "datatype": "integer", "usage": { "type": "measure" }, "index": 4 },
+            { "id": "Attrition", "elementType": "data-field", "name": "Attrition", "datatype": "boolean", "usage": { "type": "category" }, "index": 5 },
+            { "id": "JoinDate", "elementType": "data-field", "name": "JoinDate", "datatype": "date", "usage": { "type": "time" }, "index": 6 }
+          ],
+          "baseSchemaId": "s-raw"
+        },
+        "s-derived": {
+          "id": "s-derived",
+          "version": 1,
+          "elementType": "data-table",
+          "name": "derived",
+          "fields": [
+            { "id": "Name", "elementType": "data-field", "name": "Name", "datatype": "string", "usage": { "type": "category" }, "index": 0 },
+            { "id": "Department", "elementType": "data-field", "name": "Department", "datatype": "string", "usage": { "type": "category" }, "index": 1 },
+            { "id": "City", "elementType": "data-field", "name": "City", "datatype": "string", "usage": { "type": "category" }, "index": 2 },
+            { "id": "Age", "elementType": "data-field", "name": "Age", "datatype": "integer", "usage": { "type": "measure" }, "index": 3 },
+            { "id": "MonthlyIncome", "elementType": "data-field", "name": "MonthlyIncome", "datatype": "integer", "usage": { "type": "measure" }, "index": 4 },
+            { "id": "Attrition", "elementType": "data-field", "name": "Attrition", "datatype": "boolean", "usage": { "type": "category" }, "index": 5 },
+            { "id": "JoinDate", "elementType": "data-field", "name": "JoinDate", "datatype": "date", "usage": { "type": "time" }, "index": 6 },
+            { "id": "First3", "elementType": "data-field", "name": "First3", "datatype": "string", "usage": { "type": "category" }, "index": 7 },
+            { "id": "CityLast2", "elementType": "data-field", "name": "CityLast2", "datatype": "string", "usage": { "type": "category" }, "index": 8 },
+            { "id": "DeptMid", "elementType": "data-field", "name": "DeptMid", "datatype": "string", "usage": { "type": "category" }, "index": 9 },
+            { "id": "JoinYear", "elementType": "data-field", "name": "JoinYear", "datatype": "integer", "usage": { "type": "measure" }, "index": 10 },
+            { "id": "JoinMonth", "elementType": "data-field", "name": "JoinMonth", "datatype": "integer", "usage": { "type": "measure" }, "index": 11 },
+            { "id": "JoinDay", "elementType": "data-field", "name": "JoinDay", "datatype": "integer", "usage": { "type": "measure" }, "index": 12 }
+          ],
+          "baseSchemaId": "s-selected"
+        },
+        "s-clean": {
+          "id": "s-clean",
+          "version": 1,
+          "elementType": "data-table",
+          "name": "clean",
+          "fields": [
+            { "id": "Name", "elementType": "data-field", "name": "Name", "datatype": "string", "usage": { "type": "category" }, "index": 0 },
+            { "id": "Department", "elementType": "data-field", "name": "Department", "datatype": "string", "usage": { "type": "category" }, "index": 1 },
+            { "id": "City", "elementType": "data-field", "name": "City", "datatype": "string", "usage": { "type": "category" }, "index": 2 },
+            { "id": "Age", "elementType": "data-field", "name": "Age", "datatype": "integer", "usage": { "type": "measure" }, "index": 3 },
+            { "id": "MonthlyIncome", "elementType": "data-field", "name": "MonthlyIncome", "datatype": "string", "usage": { "type": "category" }, "index": 4 },
+            { "id": "Attrition", "elementType": "data-field", "name": "Attrition", "datatype": "boolean", "usage": { "type": "category" }, "index": 5 },
+            { "id": "JoinDate", "elementType": "data-field", "name": "JoinDate", "datatype": "date", "usage": { "type": "time" }, "index": 6 },
+            { "id": "First3", "elementType": "data-field", "name": "First3", "datatype": "string", "usage": { "type": "category" }, "index": 7 },
+            { "id": "CityLast2", "elementType": "data-field", "name": "CityLast2", "datatype": "string", "usage": { "type": "category" }, "index": 8 },
+            { "id": "DeptMid", "elementType": "data-field", "name": "DeptMid", "datatype": "string", "usage": { "type": "category" }, "index": 9 },
+            { "id": "JoinYear", "elementType": "data-field", "name": "JoinYear", "datatype": "integer", "usage": { "type": "measure" }, "index": 10 },
+            { "id": "JoinMonth", "elementType": "data-field", "name": "JoinMonth", "datatype": "integer", "usage": { "type": "measure" }, "index": 11 },
+            { "id": "JoinDay", "elementType": "data-field", "name": "JoinDay", "datatype": "integer", "usage": { "type": "measure" }, "index": 12 }
+          ],
+          "baseSchemaId": "s-derived"
+        }
+      },
+      "flowModel": {
+        "actions": [
+          {
+            "elementType": "action",
+            "actionType": "select-fields",
+            "title": "Select",
+            "id": "a-select",
+            "version": 1,
+            "inputs": [
+              { "id": "p-select-in", "version": 1, "itemType": "port", "elementType": "port", "portType": "input", "schema": "s-raw", "index": 0, "parent": "a-select", "name": "datecheck csv" }
+            ],
+            "outputs": [
+              { "id": "p-select-out", "name": "selected", "elementType": "port", "portType": "output", "schema": "s-selected" }
+            ],
+            "config": [
+              {
+                "type": "select-fields",
+                "portId": "p-select-out",
+                "actionId": "a-select",
+                "outputName": "selected",
+                "schema": "s-selected",
+                "fieldSelection": ["Name","Department","City","Age","MonthlyIncome","Attrition","JoinDate"]
+              }
+            ]
+          },
+          {
+            "elementType": "action",
+            "actionType": "derive-fields",
+            "title": "Derive: extraction + Y/M/D",
+            "id": "a-derive",
+            "version": 1,
+            "inputs": [
+              { "id": "p-derive-in", "version": 1, "itemType": "port", "elementType": "port", "portType": "input", "schema": "s-selected", "index": 0, "parent": "a-derive", "name": "selected" }
+            ],
+            "outputs": [
+              { "id": "p-derive-out", "name": "derived", "elementType": "port", "portType": "output", "schema": "s-derived" }
+            ],
+            "config": [
+              {
+                "type": "derive-fields",
+                "portId": "p-derive-out",
+                "actionId": "a-derive",
+                "outputName": "derived",
+                "schema": "s-derived",
+                "derivedFields": [
+                  { "newFieldName": "First3", "userExpression": "left(Name, 3)" },
+                  { "newFieldName": "CityLast2", "userExpression": "right(City, 2)" },
+                  { "newFieldName": "DeptMid", "userExpression": "mid(Department, 2, 4)" },
+                  { "newFieldName": "JoinYear", "userExpression": "year(JoinDate)" },
+                  { "newFieldName": "JoinMonth", "userExpression": "month(JoinDate)" },
+                  { "newFieldName": "JoinDay", "userExpression": "day(JoinDate)" }
+                ]
+              }
+            ]
+          },
+          {
+            "elementType": "action",
+            "actionType": "clean",
+            "title": "Clean: text ops in-place",
+            "id": "a-clean",
+            "version": 1,
+            "inputs": [
+              { "id": "p-clean-in", "version": 1, "itemType": "port", "elementType": "port", "portType": "input", "schema": "s-derived", "index": 0, "parent": "a-clean", "name": "derived" }
+            ],
+            "outputs": [
+              { "id": "p-clean-out", "name": "clean", "elementType": "port", "portType": "output", "schema": "s-clean" }
+            ],
+            "config": [
+              {
+                "type": "clean",
+                "portId": "p-clean-out",
+                "actionId": "a-clean",
+                "outputName": "clean",
+                "schema": "s-clean",
+                "drop_nulls": [],
+                "fill_nulls": {},
+                "replacements": {},
+                "drop_duplicates": false,
+                "constraints": {},
+                "iqr_outliers": null,
+                "fuzzy_detect": null,
+                "operations": [
+                  { "op": "trim", "columns": ["Name","City"] },
+                  { "op": "upper", "columns": ["Department"] },
+                  { "op": "substitute", "columns": ["City"], "old": "SAN", "new": "San" },
+                  { "op": "replace", "columns": ["City"], "start": 5, "length": 3, "new_text": "XXX" },
+                  { "op": "value", "columns": ["MonthlyIncome"], "target_type": "DOUBLE" },
+                  { "op": "text", "columns": ["MonthlyIncome"], "fmt": "%.2f" },
+                  { "op": "left", "columns": ["Name"], "n": 3 },
+                  { "op": "right", "columns": ["City"], "n": 2 },
+                  { "op": "mid", "columns": ["Department"], "start": 2, "length": 4 },
+                  { "op": "proper", "columns": ["City"] }
+                ]
+              }
+            ]
+          }
+        ],
+        "connections": [
+          { "id": "c1", "version": 1, "elementType": "connection", "name": "", "target": { "action": "a-select", "input": "p-select-in" }, "source": { "action": "src-datecheck", "output": "p-src-out" } },
+          { "id": "c2", "version": 1, "elementType": "connection", "name": "", "target": { "action": "a-derive", "input": "p-derive-in" }, "source": { "action": "a-select", "output": "p-select-out" } },
+          { "id": "c3", "version": 1, "elementType": "connection", "name": "", "target": { "action": "a-clean", "input": "p-clean-in" }, "source": { "action": "a-derive", "output": "p-derive-out" } }
+        ]
+      }
+    }
+  },
+  "flowInputMappings": [],
+  "studies": [
+    { "elementType": "viewItem", "itemType": "view", "id": "view-1", "name": "study1", "order": 0, "width": 1920, "height": 1080, "elements": [] }
+  ]
+}

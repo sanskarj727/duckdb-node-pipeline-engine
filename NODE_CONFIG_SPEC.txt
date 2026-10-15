@@ -1,0 +1,587 @@
+NODE CONFIGURATION SPECIFICATION
+=================================
+
+This document details the runtime configuration keys (config.get() calls) for each actionType in the Scribble pipeline. Each node reads a subset of these keys; unrecognized keys are ignored.
+
+---
+
+SOURCE
+------
+actionType: "source"
+
+No node-level config keys. Configuration comes entirely from the dataSources array in the top-level flow JSON:
+  - filePath: string, path to the data file
+  - fileType: string, one of "csv", "tsv", "parquet"
+  - delimiter: string (for delimited files), default comma
+
+Example flow entry:
+{
+  "id": "source_1",
+  "actionType": "source",
+  "config": {},
+  "inputs": [],
+  "outputs": [{"id": "out"}]
+}
+
+Example dataSource:
+{
+  "id": "data_1",
+  "name": "raw_data",
+  "providerInfo": {
+    "connectionInfo": {
+      "filePath": "data/sales.csv",
+      "fileType": "csv",
+      "delimiter": ","
+    }
+  }
+}
+
+---
+
+SELECT-FIELDS
+-------------
+actionType: "select-fields"
+
+Config keys:
+  - columns: list of column names to select (order preserved)
+
+Example:
+{
+  "id": "select_1",
+  "actionType": "select-fields",
+  "config": {
+    "columns": ["name", "amount", "date"]
+  },
+  "inputs": [{"id": "in"}],
+  "outputs": [{"id": "out"}]
+}
+
+---
+
+FILTER
+------
+actionType: "filter"
+
+Config keys:
+  - expression: string, a SQL WHERE expression (without the WHERE keyword)
+    Supports column names, operators (=, !=, <, >, <=, >=, LIKE, IN), AND, OR, NOT, BETWEEN, IS NULL
+
+Example:
+{
+  "id": "filter_1",
+  "actionType": "filter",
+  "config": {
+    "expression": "amount > 1000 AND status = 'active'"
+  },
+  "inputs": [{"id": "in"}],
+  "outputs": [{"id": "out"}]
+}
+
+---
+
+DERIVE-FIELDS
+--------------
+actionType: "derive-fields"
+
+Config keys:
+  - derivations: list of objects, each with:
+    - name: string, name of the new column
+    - expression: string, a Scribble/Excel-like expression converted to SQL
+      Supported functions: IF, IFS, LEFT, RIGHT, MID, LEN, UPPER, LOWER, TRIM,
+      CONCATENATE, TODAY, YEAR, MONTH, DAY, DATEDIFF, basic arithmetic (+, -, *, /),
+      AND, OR, NOT
+
+Example:
+{
+  "id": "derive_1",
+  "actionType": "derive-fields",
+  "config": {
+    "derivations": [
+      {
+        "name": "full_name",
+        "expression": "CONCATENATE(first_name, ' ', last_name)"
+      },
+      {
+        "name": "is_profitable",
+        "expression": "IF(revenue > cost, 'yes', 'no')"
+      }
+    ]
+  },
+  "inputs": [{"id": "in"}],
+  "outputs": [{"id": "out"}]
+}
+
+---
+
+SUMMARIZE
+---------
+actionType: "summarize"
+
+Config keys:
+  - groupBy: list of column names (optional; if empty, global aggregation)
+  - aggregations: list of objects, each with:
+    - column: string, column name to aggregate
+    - function: string, one of:
+      count, sum, avg, min, max, median, mode,
+      stddev, variance, quantile_25, quantile_75,
+      covar_pop, covar_sample, first, last
+    - alias: string (optional), output column name; defaults to "function_column"
+    - filterExpression: string (optional), adds FILTER (WHERE ...) to the aggregate
+
+Example:
+{
+  "id": "summarize_1",
+  "actionType": "summarize",
+  "config": {
+    "groupBy": ["region"],
+    "aggregations": [
+      {
+        "column": "amount",
+        "function": "sum",
+        "alias": "total_amount"
+      },
+      {
+        "column": "amount",
+        "function": "count",
+        "alias": "count_records"
+      },
+      {
+        "column": "status",
+        "function": "count",
+        "alias": "active_count",
+        "filterExpression": "status = 'active'"
+      }
+    ]
+  },
+  "inputs": [{"id": "in"}],
+  "outputs": [{"id": "out"}]
+}
+
+---
+
+SORT
+----
+actionType: "sort"
+
+Config keys:
+  - sortColumns: list of objects, each with:
+    - column: string, column name
+    - direction: string, "asc" or "desc"
+    - numericSort: boolean (optional), applies special handling for numeric strings
+
+Example:
+{
+  "id": "sort_1",
+  "actionType": "sort",
+  "config": {
+    "sortColumns": [
+      {"column": "date", "direction": "desc"},
+      {"column": "amount", "direction": "desc", "numericSort": true}
+    ]
+  },
+  "inputs": [{"id": "in"}],
+  "outputs": [{"id": "out"}]
+}
+
+---
+
+JOIN
+----
+actionType: "join"
+
+Config keys:
+  - joinType: string, one of "inner", "left", "right", "full"
+  - onColumns: object (optional), maps left column → right column for join keys
+    Example: {"id": "id", "date": "date"}
+  - If onColumns is empty or omitted, a Cartesian product is produced
+
+Example:
+{
+  "id": "join_1",
+  "actionType": "join",
+  "config": {
+    "joinType": "left",
+    "onColumns": {
+      "customer_id": "id"
+    }
+  },
+  "inputs": [
+    {"id": "left"},
+    {"id": "right"}
+  ],
+  "outputs": [{"id": "out"}]
+}
+
+---
+
+MERGE
+-----
+actionType: "merge"
+
+Config keys:
+  - operation: string, one of "union", "intersect", "except"
+    union: all rows from both tables (removes exact duplicates)
+    intersect: rows common to both
+    except: rows in first table but not in second
+
+Example:
+{
+  "id": "merge_1",
+  "actionType": "merge",
+  "config": {
+    "operation": "union"
+  },
+  "inputs": [
+    {"id": "table1"},
+    {"id": "table2"}
+  ],
+  "outputs": [{"id": "out"}]
+}
+
+---
+
+CLEAN
+-----
+actionType: "clean"
+
+Config keys:
+  - operations: list of operation objects; each operation is executed in order
+    Supported operation types:
+    - dropNull (drops rows where specified columns are NULL)
+    - fillNull (fills NULL with a constant or 0)
+    - replace (substring/exact replacement in a column)
+    - dropIQROutliers (removes rows outside interquartile range)
+    - constraint (validates and optionally removes rows not meeting a condition)
+    - trimWhitespace (SQL-based or pandas-based)
+    - uppercase, lowercase, remove_punctuation, remove_accents (text ops)
+
+Example:
+{
+  "id": "clean_1",
+  "actionType": "clean",
+  "config": {
+    "operations": [
+      {
+        "type": "dropNull",
+        "columns": ["amount", "date"]
+      },
+      {
+        "type": "fillNull",
+        "column": "status",
+        "fillValue": "unknown"
+      },
+      {
+        "type": "replace",
+        "column": "description",
+        "oldValue": "N/A",
+        "newValue": ""
+      },
+      {
+        "type": "dropIQROutliers",
+        "column": "amount"
+      },
+      {
+        "type": "constraint",
+        "expression": "amount > 0",
+        "action": "drop"
+      }
+    ]
+  },
+  "inputs": [{"id": "in"}],
+  "outputs": [{"id": "out"}]
+}
+
+---
+
+TEXT-TRANSFORM
+---------------
+actionType: "text-transform"
+
+Config keys:
+  - operation: string, one of:
+    trim, upper, lower, substitute, replace, value, text, proper
+  - columns: list of column names to apply the operation to
+  - params: object (optional), operation-specific parameters
+    - substitute: {"old": "...", "new": "..."}
+    - replace: {"pattern": "...", "replacement": "..."}
+    - value: (identity-like; rarely used)
+
+Example:
+{
+  "id": "text_1",
+  "actionType": "text-transform",
+  "config": {
+    "operation": "upper",
+    "columns": ["name", "category"]
+  },
+  "inputs": [{"id": "in"}],
+  "outputs": [{"id": "out"}]
+}
+
+Example with substitute:
+{
+  "id": "text_2",
+  "actionType": "text-transform",
+  "config": {
+    "operation": "substitute",
+    "columns": ["address"],
+    "params": {
+      "old": "St.",
+      "new": "Street"
+    }
+  },
+  "inputs": [{"id": "in"}],
+  "outputs": [{"id": "out"}]
+}
+
+---
+
+ARITHMETIC
+-----------
+actionType: "arithmetic"
+
+Config keys:
+  - column: string, column name to operate on
+  - operation: string, one of "add", "subtract", "multiply", "divide", "modulo", "power"
+  - operand: number, the value to apply
+  - resultColumn: string (optional), name of the result column; defaults to "result"
+
+Example:
+{
+  "id": "arithmetic_1",
+  "actionType": "arithmetic",
+  "config": {
+    "column": "price",
+    "operation": "multiply",
+    "operand": 1.1,
+    "resultColumn": "price_with_tax"
+  },
+  "inputs": [{"id": "in"}],
+  "outputs": [{"id": "out"}]
+}
+
+---
+
+VALIDATION
+-----------
+actionType: "validation"
+
+Config keys:
+  - rules: list of validation rule objects, each with:
+    - column: string, column name to validate
+    - rule: string, one of:
+      isblank, isnumber, istext, isdate, iserror, islogical
+    - resultColumn: string (optional), name of the boolean result column
+
+Example:
+{
+  "id": "validation_1",
+  "actionType": "validation",
+  "config": {
+    "rules": [
+      {
+        "column": "amount",
+        "rule": "isnumber",
+        "resultColumn": "is_amount_valid"
+      },
+      {
+        "column": "date",
+        "rule": "isdate",
+        "resultColumn": "is_date_valid"
+      }
+    ]
+  },
+  "inputs": [{"id": "in"}],
+  "outputs": [{"id": "out"}]
+}
+
+---
+
+TRANSPOSE
+---------
+actionType: "transpose"
+
+Config keys:
+  None (or empty object).
+
+Behavior: Flips rows and columns using DuckDB UNPIVOT + row_number().
+
+Example:
+{
+  "id": "transpose_1",
+  "actionType": "transpose",
+  "config": {},
+  "inputs": [{"id": "in"}],
+  "outputs": [{"id": "out"}]
+}
+
+---
+
+LOOKUP
+------
+actionType: "lookup"
+
+Config keys:
+  - lookupType: string, one of "hlookup", "index", "match", "indirect"
+  - tableRange: object
+    - startRow, endRow, startCol, endCol (numeric indices)
+  - searchKey: string (for match)
+  - rowIndex: number (for hlookup/index)
+  - parameters: object (optional), additional parameters
+
+Example (HLOOKUP):
+{
+  "id": "lookup_1",
+  "actionType": "lookup",
+  "config": {
+    "lookupType": "hlookup",
+    "tableRange": {
+      "startRow": 0,
+      "endRow": 100,
+      "startCol": 0,
+      "endCol": 10
+    },
+    "searchKey": "product_id",
+    "rowIndex": 2
+  },
+  "inputs": [
+    {"id": "source"},
+    {"id": "lookup_table"}
+  ],
+  "outputs": [{"id": "out"}]
+}
+
+---
+
+FUZZY-DETECT
+------------
+actionType: "fuzzy-detect"
+
+Config keys:
+  - columns: list of column names to use for fuzzy matching
+  - threshold: number (0.0 to 1.0), minimum similarity score to keep a match
+  - addScoreColumn: boolean (optional, default true), adds a "similarity_score" column
+  - addLabelColumn: boolean (optional, default false), adds a "match_label" column
+
+Example:
+{
+  "id": "fuzzy_1",
+  "actionType": "fuzzy-detect",
+  "config": {
+    "columns": ["company_name"],
+    "threshold": 0.85,
+    "addScoreColumn": true,
+    "addLabelColumn": false
+  },
+  "inputs": [{"id": "in"}],
+  "outputs": [{"id": "out"}]
+}
+
+---
+
+DROP-ROWS-MISSING-THRESHOLD
+----------------------------
+actionType: "drop-rows-missing-threshold"
+
+Config keys:
+  - columns: list of column names to check for missing values
+  - threshold: number (0.0 to 1.0), fraction of columns that can be missing
+    Example: 0.5 means drop rows where > 50% of the specified columns are NULL
+  - dropIfMissingCount: number (optional), alternative to threshold;
+    drop row if missing count >= this value
+
+Example:
+{
+  "id": "drop_rows_1",
+  "actionType": "drop-rows-missing-threshold",
+  "config": {
+    "columns": ["amount", "date", "customer"],
+    "threshold": 0.33
+  },
+  "inputs": [{"id": "in"}],
+  "outputs": [{"id": "out"}]
+}
+
+---
+
+DROP-COLS-MISSING-THRESHOLD
+----------------------------
+actionType: "drop-cols-missing-threshold"
+
+Config keys:
+  - columns: list of column names to evaluate (optional; if omitted, all columns evaluated)
+  - threshold: number (0.0 to 1.0), fraction of rows that can be missing per column
+    Example: 0.5 means drop columns where > 50% of rows are NULL
+  - keepOtherColumns: boolean (optional, default true), keep columns not in the evaluation list
+  - forceKeep: list of column names (optional), always keep these columns even if they exceed threshold
+
+Example:
+{
+  "id": "drop_cols_1",
+  "actionType": "drop-cols-missing-threshold",
+  "config": {
+    "columns": ["col_a", "col_b", "col_c"],
+    "threshold": 0.7,
+    "keepOtherColumns": true,
+    "forceKeep": ["id", "name"]
+  },
+  "inputs": [{"id": "in"}],
+  "outputs": [{"id": "out"}]
+}
+
+---
+
+TRAIN - Python Specific
+-----
+actionType: "train"
+
+Config keys:
+  - targetColumn: string, column name for the target (label)
+  - featureColumns: list of column names for features
+  - modelType: string (optional), "classification" (default) or "regression"
+  - modelPath: string (optional), file path to save the trained scikit-learn model
+    If omitted, model is kept in memory only
+
+Example:
+{
+  "id": "train_1",
+  "actionType": "train",
+  "config": {
+    "targetColumn": "purchased",
+    "featureColumns": ["age", "income", "credit_score"],
+    "modelType": "classification",
+    "modelPath": "models/purchase_classifier.pkl"
+  },
+  "inputs": [{"id": "in"}],
+  "outputs": [{"id": "out"}]
+}
+
+---
+
+PREDICT - Python specific
+--------
+actionType: "predict"
+
+Config keys:
+  - featureColumns: list of column names for features (must match training features)
+  - modelPath: string, file path to a saved scikit-learn model
+  - predictionColumn: string (optional), name of the output prediction column; default "prediction"
+  - probabilities: boolean (optional), include probability columns per class (classification only)
+
+Example:
+{
+  "id": "predict_1",
+  "actionType": "predict",
+  "config": {
+    "featureColumns": ["age", "income", "credit_score"],
+    "modelPath": "models/purchase_classifier.pkl",
+    "predictionColumn": "purchase_prediction",
+    "probabilities": false
+  },
+  "inputs": [{"id": "in"}],
+  "outputs": [{"id": "out"}]
+}
+
+---
+
+END OF NODE CONFIGURATION SPECIFICATION

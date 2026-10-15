@@ -1,0 +1,139 @@
+{
+  "id": "demo-validation-001",
+  "name": "Validation node demo",
+  "type": "experiment",
+  "runScope": "device",
+  "version": 1,
+  "createdBy": "guest",
+  "dataSources": [
+    {
+      "id": "src-validation",
+      "version": 1,
+      "name": "validation.csv",
+      "providerInfo": {
+        "connectionInfo": {
+          "type": "file",
+          "filePath": "data/validation.csv",
+          "fileType": "csv",
+          "delimiter": ","
+        }
+      },
+      "elementType": "data-source",
+      "contentInfo": {},
+      "config": [
+        {
+          "type": "source",
+          "portId": "p-out-validation",
+          "actionId": "src-validation",
+          "schema": "s-raw",
+          "name": "validation csv",
+          "outputName": "validation csv"
+        }
+      ]
+    }
+  ],
+  "dataFlows": {
+    "flow": {
+      "executionSide": "client",
+      "elementType": "data-flow",
+      "actionType": "flow",
+      "id": "flow-validation",
+      "version": 1,
+      "sources": [
+        {
+          "id": "src-validation",
+          "version": 1,
+          "name": "validation.csv",
+          "title": "validation.csv",
+          "elementType": "action",
+          "actionType": "source",
+          "config": [
+            {
+              "type": "source",
+              "portId": "p-out-validation",
+              "actionId": "src-validation",
+              "schema": "s-raw",
+              "name": "validation csv",
+              "outputName": "validation csv"
+            }
+          ],
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "p-out-validation",
+              "name": "validation csv",
+              "elementType": "port",
+              "portType": "output",
+              "schema": "s-raw"
+            }
+          ],
+          "portType": "input"
+        }
+      ],
+      "schemaDictionary": {
+        "s-raw": {
+          "id": "s-raw",
+          "version": 1,
+          "elementType": "data-table",
+          "name": "raw",
+          "fields": []
+        },
+        "s-valid": {
+          "id": "s-valid",
+          "version": 1,
+          "elementType": "data-table",
+          "name": "validated",
+          "fields": []
+        }
+      },
+      "flowModel": {
+        "actions": [
+          {
+            "elementType": "action",
+            "actionType": "validation",
+            "title": "Validation flags",
+            "id": "a-validate",
+            "version": 1,
+            "inputs": [
+              {
+                "id": "p-in",
+                "schema": "s-raw",
+                "portType": "input",
+                "parent": "a-validate",
+                "name": "validation csv"
+              }
+            ],
+            "outputs": [
+              {
+                "id": "p-out",
+                "name": "validated",
+                "elementType": "port",
+                "portType": "output",
+                "schema": "s-valid"
+              }
+            ],
+            "config": [
+              {
+                "type": "validation",
+                "rules": [
+                  { "op": "isblank",   "columns": ["City"],           "output": "IsCityBlank" },
+                  { "op": "isnumber",  "columns": ["Age"],            "output": "IsAgeNumber" },
+                  { "op": "istext",    "columns": ["Department"],     "output": "IsDeptText" },
+                  { "op": "isnontext", "columns": ["MonthlyIncome"],  "output": "IsIncomeNonText" },
+                  { "op": "iserror",   "columns": ["MonthlyIncome"],  "output": "IsIncomeError" }
+                ]
+              }
+            ]
+          }
+        ],
+        "connections": [
+          {
+            "id": "c1",
+            "target": { "action": "a-validate", "input": "p-in" },
+            "source": { "action": "src-validation", "output": "p-out-validation" }
+          }
+        ]
+      }
+    }
+  }
+}

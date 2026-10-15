@@ -1,0 +1,326 @@
+{
+  "id": "nyc-taxi-pipeline-004",
+  "name": "NYC Taxi Filter + Derive + Sort + Summarize + Sort",
+  "type": "experiment",
+  "runScope": "device",
+  "version": 1,
+  "createdBy": "guest",
+  "dataSources": [
+    {
+      "id": "src-1",
+      "version": 1,
+      "name": "yellowtaxi",
+      "providerInfo": {
+        "connectionInfo": {
+          "type": "file",
+          "filePath": "data/yellowtaxi.parquet",
+          "fileType": "parquet",
+          "delimiter": ","
+        }
+      },
+      "elementType": "data-source",
+      "contentInfo": {},
+      "config": [
+        { "type": "source", "portId": "p-src-out", "actionId": "src-1", "schema": "s-raw", "name": "yellow parquet", "outputName": "yellow parquet" }
+      ]
+    }
+  ],
+  "dataFlows": {
+    "flow": {
+      "executionSide": "client",
+      "elementType": "data-flow",
+      "actionType": "flow",
+      "id": "flow-nyc-4",
+      "version": 1,
+      "name": "",
+      "inputs": [],
+      "outputs": [],
+      "config": [],
+      "sources": [
+        {
+          "id": "src-1",
+          "version": 1,
+          "name": "yellowtaxi",
+          "title": "yellowtaxi",
+          "elementType": "action",
+          "actionType": "source",
+          "config": [
+            { "type": "source", "portId": "p-src-out", "actionId": "src-1", "schema": "s-raw", "name": "yellow parquet", "outputName": "yellow parquet" }
+          ],
+          "inputs": [],
+          "outputs": [
+            { "id": "p-src-out", "name": "yellow parquet", "elementType": "port", "portType": "output", "schema": "s-raw" }
+          ],
+          "portType": "input"
+        }
+      ],
+      "schemaDictionary": {
+        "s-raw": {
+          "id": "s-raw",
+          "version": 1,
+          "elementType": "data-table",
+          "name": "raw",
+          "fields": [
+            { "id": "tpep_pickup_datetime", "elementType": "data-field", "name": "tpep_pickup_datetime", "datatype": "timestamp", "usage": { "type": "time" }, "index": 0 },
+            { "id": "tpep_dropoff_datetime", "elementType": "data-field", "name": "tpep_dropoff_datetime", "datatype": "timestamp", "usage": { "type": "time" }, "index": 1 },
+            { "id": "passenger_count", "elementType": "data-field", "name": "passenger_count", "datatype": "integer", "usage": { "type": "measure" }, "index": 2 },
+            { "id": "trip_distance", "elementType": "data-field", "name": "trip_distance", "datatype": "number", "usage": { "type": "measure" }, "index": 3 },
+            { "id": "fare_amount", "elementType": "data-field", "name": "fare_amount", "datatype": "number", "usage": { "type": "measure" }, "index": 4 },
+            { "id": "tip_amount", "elementType": "data-field", "name": "tip_amount", "datatype": "number", "usage": { "type": "measure" }, "index": 5 },
+            { "id": "total_amount", "elementType": "data-field", "name": "total_amount", "datatype": "number", "usage": { "type": "measure" }, "index": 6 },
+            { "id": "PULocationID", "elementType": "data-field", "name": "PULocationID", "datatype": "integer", "usage": { "type": "category" }, "index": 7 }
+          ]
+        },
+        "s-filtered": {
+          "id": "s-filtered",
+          "version": 1,
+          "elementType": "data-table",
+          "name": "filtered",
+          "fields": [
+            { "id": "tpep_pickup_datetime", "name": "tpep_pickup_datetime", "elementType": "data-field", "datatype": "timestamp", "usage": { "type": "time" }, "index": 0 },
+            { "id": "tpep_dropoff_datetime", "name": "tpep_dropoff_datetime", "elementType": "data-field", "datatype": "timestamp", "usage": { "type": "time" }, "index": 1 },
+            { "id": "passenger_count", "name": "passenger_count", "elementType": "data-field", "datatype": "integer", "usage": { "type": "measure" }, "index": 2 },
+            { "id": "trip_distance", "name": "trip_distance", "elementType": "data-field", "datatype": "number", "usage": { "type": "measure" }, "index": 3 },
+            { "id": "fare_amount", "name": "fare_amount", "elementType": "data-field", "datatype": "number", "usage": { "type": "measure" }, "index": 4 },
+            { "id": "tip_amount", "name": "tip_amount", "elementType": "data-field", "datatype": "number", "usage": { "type": "measure" }, "index": 5 },
+            { "id": "total_amount", "name": "total_amount", "elementType": "data-field", "datatype": "number", "usage": { "type": "measure" }, "index": 6 },
+            { "id": "PULocationID", "name": "PULocationID", "elementType": "data-field", "datatype": "integer", "usage": { "type": "category" }, "index": 7 }
+          ],
+          "baseSchemaId": "s-raw"
+        },
+        "s-derived": {
+          "id": "s-derived",
+          "version": 1,
+          "elementType": "data-table",
+          "name": "derived",
+          "fields": [
+            { "id": "tpep_pickup_datetime", "name": "tpep_pickup_datetime", "elementType": "data-field", "datatype": "timestamp", "usage": { "type": "time" }, "index": 0 },
+            { "id": "PULocationID", "name": "PULocationID", "elementType": "data-field", "datatype": "integer", "usage": { "type": "category" }, "index": 1 },
+            { "id": "trip_distance", "name": "trip_distance", "elementType": "data-field", "datatype": "number", "usage": { "type": "measure" }, "index": 2 },
+            { "id": "fare_amount", "name": "fare_amount", "elementType": "data-field", "datatype": "number", "usage": { "type": "measure" }, "index": 3 },
+            { "id": "tip_amount", "name": "tip_amount", "elementType": "data-field", "datatype": "number", "usage": { "type": "measure" }, "index": 4 },
+            { "id": "total_amount", "name": "total_amount", "elementType": "data-field", "datatype": "number", "usage": { "type": "measure" }, "index": 5 },
+            { "id": "trip_duration_minutes", "name": "trip_duration_minutes", "elementType": "data-field", "datatype": "number", "usage": { "type": "measure" }, "index": 6 },
+            { "id": "tip_rate", "name": "tip_rate", "elementType": "data-field", "datatype": "number", "usage": { "type": "measure" }, "index": 7 },
+            { "id": "total_extras", "name": "total_extras", "elementType": "data-field", "datatype": "number", "usage": { "type": "measure" }, "index": 8 }
+          ],
+          "baseSchemaId": "s-raw"
+        },
+        "s-sorted1": {
+          "id": "s-sorted1",
+          "version": 1,
+          "elementType": "data-table",
+          "name": "sorted1",
+          "fields": [
+            { "id": "tpep_pickup_datetime", "name": "tpep_pickup_datetime", "elementType": "data-field", "datatype": "timestamp", "usage": { "type": "time" }, "index": 0 },
+            { "id": "PULocationID", "name": "PULocationID", "elementType": "data-field", "datatype": "integer", "usage": { "type": "category" }, "index": 1 },
+            { "id": "trip_distance", "name": "trip_distance", "elementType": "data-field", "datatype": "number", "usage": { "type": "measure" }, "index": 2 },
+            { "id": "fare_amount", "name": "fare_amount", "elementType": "data-field", "datatype": "number", "usage": { "type": "measure" }, "index": 3 },
+            { "id": "tip_amount", "name": "tip_amount", "elementType": "data-field", "datatype": "number", "usage": { "type": "measure" }, "index": 4 },
+            { "id": "total_amount", "name": "total_amount", "elementType": "data-field", "datatype": "number", "usage": { "type": "measure" }, "index": 5 },
+            { "id": "trip_duration_minutes", "name": "trip_duration_minutes", "elementType": "data-field", "datatype": "number", "usage": { "type": "measure" }, "index": 6 },
+            { "id": "tip_rate", "name": "tip_rate", "elementType": "data-field", "datatype": "number", "usage": { "type": "measure" }, "index": 7 },
+            { "id": "total_extras", "name": "total_extras", "elementType": "data-field", "datatype": "number", "usage": { "type": "measure" }, "index": 8 }
+          ],
+          "baseSchemaId": "s-derived"
+        },
+        "s-summary": {
+          "id": "s-summary",
+          "version": 1,
+          "elementType": "data-table",
+          "name": "summary",
+          "fields": [
+            { "id": "PULocationID", "elementType": "data-field", "name": "PULocationID", "datatype": "integer", "usage": { "type": "category" }, "index": 0 },
+            { "id": "num_trips", "elementType": "data-field", "name": "num_trips", "datatype": "integer", "usage": { "type": "measure" }, "index": 1 },
+            { "id": "avg_distance", "elementType": "data-field", "name": "avg_distance", "datatype": "number", "usage": { "type": "measure" }, "index": 2 },
+            { "id": "avg_fare", "elementType": "data-field", "name": "avg_fare", "datatype": "number", "usage": { "type": "measure" }, "index": 3 },
+            { "id": "avg_tip_rate", "elementType": "data-field", "name": "avg_tip_rate", "datatype": "number", "usage": { "type": "measure" }, "index": 4 },
+            { "id": "avg_extras", "elementType": "data-field", "name": "avg_extras", "datatype": "number", "usage": { "type": "measure" }, "index": 5 }
+          ]
+        },
+        "s-sorted2": {
+          "id": "s-sorted2",
+          "version": 1,
+          "elementType": "data-table",
+          "name": "sorted2",
+          "fields": [
+            { "id": "PULocationID", "elementType": "data-field", "name": "PULocationID", "datatype": "integer", "usage": { "type": "category" }, "index": 0 },
+            { "id": "num_trips", "elementType": "data-field", "name": "num_trips", "datatype": "integer", "usage": { "type": "measure" }, "index": 1 },
+            { "id": "avg_distance", "elementType": "data-field", "name": "avg_distance", "datatype": "number", "usage": { "type": "measure" }, "index": 2 },
+            { "id": "avg_fare", "elementType": "data-field", "name": "avg_fare", "datatype": "number", "usage": { "type": "measure" }, "index": 3 },
+            { "id": "avg_tip_rate", "elementType": "data-field", "name": "avg_tip_rate", "datatype": "number", "usage": { "type": "measure" }, "index": 4 },
+            { "id": "avg_extras", "elementType": "data-field", "name": "avg_extras", "datatype": "number", "usage": { "type": "measure" }, "index": 5 }
+          ],
+          "baseSchemaId": "s-summary"
+        }
+      },
+      "flowModel": {
+        "actions": [
+          {
+            "elementType": "action",
+            "actionType": "filter",
+            "title": "Filter",
+            "id": "a-filter",
+            "version": 2,
+            "inputs": [
+              { "id": "p-filter-in", "version": 1, "itemType": "port", "elementType": "port", "portType": "input", "schema": "s-raw", "index": 0, "parent": "a-filter", "name": "yellow parquet" }
+            ],
+            "outputs": [
+              { "id": "p-filter-out", "name": "filtered", "elementType": "port", "portType": "output", "schema": "s-filtered" }
+            ],
+            "config": [
+              {
+                "type": "filter",
+                "portId": "p-filter-out",
+                "actionId": "a-filter",
+                "outputName": "filtered",
+                "schema": "s-filtered",
+                "aqExpression": "d['passenger_count'] > 0",
+                "userExpression": "passenger_count > 0"
+              }
+            ]
+          },
+          {
+            "elementType": "action",
+            "actionType": "derive-fields",
+            "title": "Derive",
+            "id": "a-derive",
+            "version": 2,
+            "inputs": [
+              { "id": "p-derive-in", "version": 1, "itemType": "port", "elementType": "port", "portType": "input", "schema": "s-filtered", "index": 0, "parent": "a-derive", "name": "filtered" }
+            ],
+            "outputs": [
+              { "id": "p-derive-out", "name": "derived", "elementType": "port", "portType": "output", "schema": "s-derived" }
+            ],
+            "config": [
+              {
+                "type": "derive-fields",
+                "portId": "p-derive-out",
+                "actionId": "a-derive",
+                "outputName": "derived",
+                "schema": "s-derived",
+                "derivedFields": [
+                  {
+                    "newFieldId": "trip_duration_minutes",
+                    "newFieldName": "trip_duration_minutes",
+                    "newFieldDataType": "number",
+                    "newFieldUsageType": "measure",
+                    "aqExpression": "datediff('minute', d['tpep_pickup_datetime'], d['tpep_dropoff_datetime'])",
+                    "userExpression": "datediff('minute', tpep_pickup_datetime, tpep_dropoff_datetime)"
+                  },
+                  {
+                    "newFieldId": "tip_rate",
+                    "newFieldName": "tip_rate",
+                    "newFieldDataType": "number",
+                    "newFieldUsageType": "measure",
+                    "aqExpression": "case when d['fare_amount'] > 0 then (d['tip_amount'] / d['fare_amount']) * 100 else 0 end",
+                    "userExpression": "case when fare_amount > 0 then (tip_amount / fare_amount) * 100 else 0 end"
+                  },
+                  {
+                    "newFieldId": "total_extras",
+                    "newFieldName": "total_extras",
+                    "newFieldDataType": "number",
+                    "newFieldUsageType": "measure",
+                    "aqExpression": "d['total_amount'] - d['fare_amount'] - d['tip_amount']",
+                    "userExpression": "total_amount - fare_amount - tip_amount"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "elementType": "action",
+            "actionType": "sort",
+            "title": "Sort 1",
+            "id": "a-sort-1",
+            "version": 2,
+            "inputs": [
+              { "id": "p-sort1-in", "version": 1, "itemType": "port", "elementType": "port", "portType": "input", "schema": "s-derived", "index": 0, "parent": "a-sort-1", "name": "derived" }
+            ],
+            "outputs": [
+              { "id": "p-sort1-out", "name": "sorted1", "elementType": "port", "portType": "output", "schema": "s-sorted1" }
+            ],
+            "config": [
+              {
+                "type": "sort",
+                "portId": "p-sort1-out",
+                "actionId": "a-sort-1",
+                "outputName": "sorted1",
+                "schema": "s-sorted1",
+                "sortFields": [
+                  { "fieldId": "trip_duration_minutes", "isDesc": false }
+                ]
+              }
+            ]
+          },
+          {
+            "elementType": "action",
+            "actionType": "summarize",
+            "title": "Summarize",
+            "id": "a-summarize",
+            "version": 2,
+            "inputs": [
+              { "id": "p-sum-in", "version": 1, "itemType": "port", "elementType": "port", "portType": "input", "schema": "s-sorted1", "index": 0, "parent": "a-summarize", "name": "sorted1" }
+            ],
+            "outputs": [
+              { "id": "p-sum-out", "name": "summary", "elementType": "port", "portType": "output", "schema": "s-summary" }
+            ],
+            "config": [
+              {
+                "type": "summarize",
+                "portId": "p-sum-out",
+                "actionId": "a-summarize",
+                "outputName": "summary",
+                "schema": "s-summary",
+                "groupFields": ["PULocationID"],
+                "summaryFields": [
+                  { "aggFunction": "count", "sourceFieldId": "*", "newFieldName": "num_trips", "newFieldId": "num_trips" },
+                  { "aggFunction": "avg", "sourceFieldId": "trip_distance", "newFieldName": "avg_distance", "newFieldId": "avg_distance" },
+                  { "aggFunction": "avg", "sourceFieldId": "fare_amount", "newFieldName": "avg_fare", "newFieldId": "avg_fare" },
+                  { "aggFunction": "avg", "sourceFieldId": "tip_rate", "newFieldName": "avg_tip_rate", "newFieldId": "avg_tip_rate" },
+                  { "aggFunction": "avg", "sourceFieldId": "total_extras", "newFieldName": "avg_extras", "newFieldId": "avg_extras" }
+                ]
+              }
+            ]
+          },
+          {
+            "elementType": "action",
+            "actionType": "sort",
+            "title": "Sort 2 Desc",
+            "id": "a-sort-2",
+            "version": 2,
+            "inputs": [
+              { "id": "p-sort2-in", "version": 1, "itemType": "port", "elementType": "port", "portType": "input", "schema": "s-summary", "index": 0, "parent": "a-sort-2", "name": "summary" }
+            ],
+            "outputs": [
+              { "id": "p-sort2-out", "name": "sorted2", "elementType": "port", "portType": "output", "schema": "s-sorted2" }
+            ],
+            "config": [
+              {
+                "type": "sort",
+                "portId": "p-sort2-out",
+                "actionId": "a-sort-2",
+                "outputName": "sorted2",
+                "schema": "s-sorted2",
+                "sortFields": [
+                  { "fieldId": "num_trips", "isDesc": true }
+                ]
+              }
+            ]
+          }
+        ],
+        "connections": [
+          { "id": "c1", "version": 1, "elementType": "connection", "name": "", "target": { "action": "a-filter", "input": "p-filter-in" }, "source": { "action": "src-1", "output": "p-src-out" } },
+          { "id": "c2", "version": 1, "elementType": "connection", "name": "", "target": { "action": "a-derive", "input": "p-derive-in" }, "source": { "action": "a-filter", "output": "p-filter-out" } },
+          { "id": "c3", "version": 1, "elementType": "connection", "name": "", "target": { "action": "a-sort-1", "input": "p-sort1-in" }, "source": { "action": "a-derive", "output": "p-derive-out" } },
+          { "id": "c4", "version": 1, "elementType": "connection", "name": "", "target": { "action": "a-summarize", "input": "p-sum-in" }, "source": { "action": "a-sort-1", "output": "p-sort1-out" } },
+          { "id": "c5", "version": 1, "elementType": "connection", "name": "", "target": { "action": "a-sort-2", "input": "p-sort2-in" }, "source": { "action": "a-summarize", "output": "p-sum-out" } }
+        ]
+      }
+    }
+  },
+  "flowInputMappings": [],
+  "studies": [
+    { "elementType": "viewItem", "itemType": "view", "id": "view-1", "name": "study1", "order": 0, "width": 1920, "height": 1080, "elements": [] }
+  ]
+}

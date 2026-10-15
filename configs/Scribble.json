@@ -1,0 +1,719 @@
+{
+    "id": "2e2d529f-6e4c-4db1-8ed3-28683c8dbb79",
+    "name": "IPL Standing",
+    "type": "experiment",
+    "runScope": "device",
+    "version": 1,
+    "createdAt": "2025-04-18T12:24:21.710Z",
+    "updatedAt": "2025-04-18T12:24:42.215Z",
+    "createdBy": "guest",
+    "dataSources": [{
+            "id": "7d28172e-b1a8-4862-97f7-3107eced0b08",
+            "version": 1,
+            "name": "matches.csv",
+            "providerInfo": {
+                "connectionInfo": {
+                    "type": "catalog",
+                    "catalogId": "8e201e8b-5ac1-4619-8597-9b542a6941a4",
+                    "datasetId": "f5533903-97b7-4481-919f-f6b750986230",
+                    "resourceId": "7d28172e-b1a8-4862-97f7-3107eced0b08"
+                }
+            },
+            "elementType": "data-source",
+            "contentInfo": {},
+            "config": [{
+                    "type": "source",
+                    "portId": "uIIOoGE0",
+                    "actionId": "7d28172e-b1a8-4862-97f7-3107eced0b08",
+                    "schema": "uIIOoGD0",
+                    "name": "matches csv",
+                    "outputName": "matches csv"
+                }
+            ]
+        }
+    ],
+    "dataFlows": {
+        "flow": {
+            "executionSide": "client",
+            "elementType": "data-flow",
+            "actionType": "flow",
+            "id": "70c89324-ee17-49fb-8df0-e900ff245de1",
+            "version": 1,
+            "name": "",
+            "inputs": [],
+            "outputs": [],
+            "config": [],
+            "sources": [{
+                    "id": "7d28172e-b1a8-4862-97f7-3107eced0b08",
+                    "version": 1,
+                    "name": "matches.csv",
+                    "title": "matches.csv",
+                    "elementType": "action",
+                    "actionType": "source",
+                    "config": [{
+                            "type": "source",
+                            "portId": "uIIOoGE0",
+                            "actionId": "7d28172e-b1a8-4862-97f7-3107eced0b08",
+                            "schema": "uIIOoGD0",
+                            "name": "matches csv",
+                            "outputName": "matches csv"
+                        }
+                    ],
+                    "inputs": [],
+                    "outputs": [{
+                            "id": "uIIOoGE0",
+                            "name": "matches csv",
+                            "elementType": "port",
+                            "portType": "output",
+                            "schema": "uIIOoGD0"
+                        }
+                    ],
+                    "portType": "input"
+                }
+            ],
+            "schemaDictionary": {
+                "uIIOoGD0": {
+                    "id": "uIIOoGD0",
+                    "version": 1,
+                    "elementType": "data-table",
+                    "name": "default",
+                    "fields": [{
+                            "id": "id",
+                            "elementType": "data-field",
+                            "name": "id",
+                            "datatype": "integer",
+                            "usage": {
+                                "type": "measure"
+                            },
+                            "index": 0
+                        }, {
+                            "id": "season",
+                            "elementType": "data-field",
+                            "name": "season",
+                            "datatype": "string",
+                            "usage": {
+                                "type": "category"
+                            },
+                            "index": 1
+                        }, {
+                            "id": "city",
+                            "elementType": "data-field",
+                            "name": "city",
+                            "datatype": "string",
+                            "usage": {
+                                "type": "category"
+                            },
+                            "index": 2
+                        }, {
+                            "id": "date",
+                            "elementType": "data-field",
+                            "name": "date",
+                            "datatype": "date",
+                            "usage": {
+                                "type": "time"
+                            },
+                            "index": 3
+                        }, {
+                            "id": "match_type",
+                            "elementType": "data-field",
+                            "name": "match_type",
+                            "datatype": "string",
+                            "usage": {
+                                "type": "category"
+                            },
+                            "index": 4
+                        }, {
+                            "id": "player_of_match",
+                            "elementType": "data-field",
+                            "name": "player_of_match",
+                            "datatype": "string",
+                            "usage": {
+                                "type": "category"
+                            },
+                            "index": 5
+                        }, {
+                            "id": "venue",
+                            "elementType": "data-field",
+                            "name": "venue",
+                            "datatype": "string",
+                            "usage": {
+                                "type": "category"
+                            },
+                            "index": 6
+                        }, {
+                            "id": "team1",
+                            "elementType": "data-field",
+                            "name": "team1",
+                            "datatype": "string",
+                            "usage": {
+                                "type": "category"
+                            },
+                            "index": 7
+                        }, {
+                            "id": "team2",
+                            "elementType": "data-field",
+                            "name": "team2",
+                            "datatype": "string",
+                            "usage": {
+                                "type": "category"
+                            },
+                            "index": 8
+                        }, {
+                            "id": "toss_winner",
+                            "elementType": "data-field",
+                            "name": "toss_winner",
+                            "datatype": "string",
+                            "usage": {
+                                "type": "category"
+                            },
+                            "index": 9
+                        }, {
+                            "id": "toss_decision",
+                            "elementType": "data-field",
+                            "name": "toss_decision",
+                            "datatype": "string",
+                            "usage": {
+                                "type": "category"
+                            },
+                            "index": 10
+                        }, {
+                            "id": "winner",
+                            "elementType": "data-field",
+                            "name": "winner",
+                            "datatype": "string",
+                            "usage": {
+                                "type": "category"
+                            },
+                            "index": 11
+                        }, {
+                            "id": "result",
+                            "elementType": "data-field",
+                            "name": "result",
+                            "datatype": "string",
+                            "usage": {
+                                "type": "category"
+                            },
+                            "index": 12
+                        }, {
+                            "id": "result_margin",
+                            "elementType": "data-field",
+                            "name": "result_margin",
+                            "datatype": "string",
+                            "usage": {
+                                "type": "category"
+                            },
+                            "index": 13
+                        }, {
+                            "id": "target_runs",
+                            "elementType": "data-field",
+                            "name": "target_runs",
+                            "datatype": "string",
+                            "usage": {
+                                "type": "category"
+                            },
+                            "index": 14
+                        }, {
+                            "id": "target_overs",
+                            "elementType": "data-field",
+                            "name": "target_overs",
+                            "datatype": "string",
+                            "usage": {
+                                "type": "category"
+                            },
+                            "index": 15
+                        }, {
+                            "id": "super_over",
+                            "elementType": "data-field",
+                            "name": "super_over",
+                            "datatype": "string",
+                            "usage": {
+                                "type": "category"
+                            },
+                            "index": 16
+                        }, {
+                            "id": "method",
+                            "elementType": "data-field",
+                            "name": "method",
+                            "datatype": "string",
+                            "usage": {
+                                "type": "category"
+                            },
+                            "index": 17
+                        }, {
+                            "id": "umpire1",
+                            "elementType": "data-field",
+                            "name": "umpire1",
+                            "datatype": "string",
+                            "usage": {
+                                "type": "category"
+                            },
+                            "index": 18
+                        }, {
+                            "id": "umpire2",
+                            "elementType": "data-field",
+                            "name": "umpire2",
+                            "datatype": "string",
+                            "usage": {
+                                "type": "category"
+                            },
+                            "index": 19
+                        }
+                    ]
+                },
+                "uIIOrAr3": {
+                    "id": "uIIOrAr3",
+                    "elementType": "data-table",
+                    "version": 1,
+                    "name": "default_narrow",
+                    "fields": [{
+                            "id": "season",
+                            "elementType": "data-field",
+                            "name": "season",
+                            "datatype": "string",
+                            "usage": {
+                                "type": "category"
+                            },
+                            "index": 1
+                        }, {
+                            "id": "match_type",
+                            "elementType": "data-field",
+                            "name": "match_type",
+                            "datatype": "string",
+                            "usage": {
+                                "type": "category"
+                            },
+                            "index": 4
+                        }, {
+                            "id": "player_of_match",
+                            "elementType": "data-field",
+                            "name": "player_of_match",
+                            "datatype": "string",
+                            "usage": {
+                                "type": "category"
+                            },
+                            "index": 5
+                        }, {
+                            "id": "venue",
+                            "elementType": "data-field",
+                            "name": "venue",
+                            "datatype": "string",
+                            "usage": {
+                                "type": "category"
+                            },
+                            "index": 6
+                        }, {
+                            "id": "team1",
+                            "elementType": "data-field",
+                            "name": "team1",
+                            "datatype": "string",
+                            "usage": {
+                                "type": "category"
+                            },
+                            "index": 7
+                        }, {
+                            "id": "team2",
+                            "elementType": "data-field",
+                            "name": "team2",
+                            "datatype": "string",
+                            "usage": {
+                                "type": "category"
+                            },
+                            "index": 8
+                        }, {
+                            "id": "toss_winner",
+                            "elementType": "data-field",
+                            "name": "toss_winner",
+                            "datatype": "string",
+                            "usage": {
+                                "type": "category"
+                            },
+                            "index": 9
+                        }, {
+                            "id": "toss_decision",
+                            "elementType": "data-field",
+                            "name": "toss_decision",
+                            "datatype": "string",
+                            "usage": {
+                                "type": "category"
+                            },
+                            "index": 10
+                        }, {
+                            "id": "winner",
+                            "elementType": "data-field",
+                            "name": "winner",
+                            "datatype": "string",
+                            "usage": {
+                                "type": "category"
+                            },
+                            "index": 11
+                        }, {
+                            "id": "result",
+                            "elementType": "data-field",
+                            "name": "result",
+                            "datatype": "string",
+                            "usage": {
+                                "type": "category"
+                            },
+                            "index": 12
+                        }, {
+                            "id": "target_runs",
+                            "elementType": "data-field",
+                            "name": "target_runs",
+                            "datatype": "string",
+                            "usage": {
+                                "type": "category"
+                            },
+                            "index": 14
+                        }, {
+                            "id": "target_overs",
+                            "elementType": "data-field",
+                            "name": "target_overs",
+                            "datatype": "string",
+                            "usage": {
+                                "type": "category"
+                            },
+                            "index": 15
+                        }
+                    ]
+                },
+                "uIIP5Ea3": {
+                    "id": "uIIP5Ea3",
+                    "elementType": "data-table",
+                    "version": 1,
+                    "name": "default_narrow_derived",
+                    "fields": [{
+                            "id": "RRR",
+                            "name": "RRR",
+                            "elementType": "data-field",
+                            "datatype": "number",
+                            "usage": {
+                                "type": "measure"
+                            },
+                            "index": 12
+                        }
+                    ],
+                    "baseSchemaId": "uIIOrAr3"
+                },
+                "uIIPo2a3": {
+                    "id": "uIIPo2a3",
+                    "elementType": "data-table",
+                    "version": 1,
+                    "name": "default_narrow_derived_summary",
+                    "fields": [{
+                            "id": "winner",
+                            "elementType": "data-field",
+                            "name": "winner",
+                            "datatype": "string",
+                            "usage": {
+                                "type": "category"
+                            },
+                            "index": 11
+                        }, {
+                            "id": "uIIPtlr0",
+                            "elementType": "data-field",
+                            "name": "Wins",
+                            "datatype": "string",
+                            "usage": {
+                                "type": "category"
+                            },
+                            "index": 11
+                        }
+                    ]
+                }
+            },
+            "flowModel": {
+                "actions": [{
+                        "elementType": "action",
+                        "actionType": "select-fields",
+                        "title": "select-fields",
+                        "id": "uIIOrAr0",
+                        "version": 2,
+                        "inputs": [{
+                                "id": "uIIOrAr1",
+                                "version": 1,
+                                "itemType": "port",
+                                "elementType": "port",
+                                "portType": "input",
+                                "schema": "uIIOoGD0",
+                                "index": 0,
+                                "parent": "uIIOrAr0",
+                                "name": "matches csv"
+                            }
+                        ],
+                        "outputs": [{
+                                "id": "uIIOrAr2",
+                                "name": "matches csv",
+                                "elementType": "port",
+                                "portType": "output",
+                                "schema": "uIIOrAr3"
+                            }
+                        ],
+                        "config": [{
+                                "type": "select-fields",
+                                "portId": "uIIOrAr2",
+                                "actionId": "uIIOrAr0",
+                                "outputName": "matches csv",
+                                "schema": "uIIOrAr3",
+                                "fieldSelection": [
+                                    "season",
+                                    "match_type",
+                                    "player_of_match",
+                                    "venue",
+                                    "team1",
+                                    "team2",
+                                    "toss_winner",
+                                    "winner",
+                                    "toss_decision",
+                                    "target_runs",
+                                    "target_overs",
+                                    "result"
+                                ],
+                                "hide": false
+                            }
+                        ]
+                    }, {
+                        "elementType": "action",
+                        "actionType": "filter",
+                        "title": "filter",
+                        "id": "uIIOCij0",
+                        "version": 2,
+                        "inputs": [{
+                                "id": "uIIOCij1",
+                                "version": 1,
+                                "itemType": "port",
+                                "elementType": "port",
+                                "portType": "input",
+                                "schema": "uIIOrAr3",
+                                "index": 0,
+                                "parent": "uIIOCij0",
+                                "name": "matches csv"
+                            }
+                        ],
+                        "outputs": [{
+                                "id": "uIIOCij2",
+                                "name": "matches csv",
+                                "elementType": "port",
+                                "portType": "output",
+                                "schema": "uIIOrAr3"
+                            }
+                        ],
+                        "config": [{
+                                "type": "filter",
+                                "portId": "uIIOCij2",
+                                "aqExpression": "d['season'] == 2014",
+                                "actionId": "uIIOCij0",
+                                "outputName": "matches csv",
+                                "schema": "uIIOrAr3",
+                                "userExpression": "season = 2014"
+                            }
+                        ]
+                    }, {
+                        "elementType": "action",
+                        "actionType": "derive-fields",
+                        "title": "derive-fields",
+                        "id": "uIIP5Ea0",
+                        "version": 2,
+                        "inputs": [{
+                                "id": "uIIP5Ea1",
+                                "version": 1,
+                                "itemType": "port",
+                                "elementType": "port",
+                                "portType": "input",
+                                "schema": "uIIOrAr3",
+                                "index": 0,
+                                "parent": "uIIP5Ea0",
+                                "name": "matches csv"
+                            }
+                        ],
+                        "outputs": [{
+                                "id": "uIIP5Ea2",
+                                "name": "matches csv",
+                                "elementType": "port",
+                                "portType": "output",
+                                "schema": "uIIP5Ea3"
+                            }
+                        ],
+                        "config": [{
+                                "type": "derive-fields",
+                                "portId": "uIIP5Ea2",
+                                "actionId": "uIIP5Ea0",
+                                "outputName": "matches csv",
+                                "schema": "uIIP5Ea3",
+                                "derivedFields": [{
+                                        "newFieldId": "RRR",
+                                        "newFieldName": "RRR",
+                                        "newFieldDataType": "number",
+                                        "newFieldUsageType": "measure",  
+                                        "userExpression": "target_runs/target_overs"
+                                    }
+                                ]
+                            }
+                        ]
+                    }, {
+                        "elementType": "action",
+                        "actionType": "summarize",
+                        "title": "summarize",
+                        "id": "uIIPo2a0",
+                        "version": 2,
+                        "inputs": [{
+                                "id": "uIIPo2a1",
+                                "version": 1,
+                                "itemType": "port",
+                                "elementType": "port",
+                                "portType": "input",
+                                "schema": "uIIP5Ea3",
+                                "index": 0,
+                                "parent": "uIIPo2a0",
+                                "name": "matches csv"
+                            }
+                        ],
+                        "outputs": [{
+                                "id": "uIIPo2a2",
+                                "name": "matches csv",
+                                "elementType": "port",
+                                "portType": "output",
+                                "schema": "uIIPo2a3"
+                            }
+                        ],
+                        "config": [{
+                                "type": "summarize",
+                                "portId": "uIIPo2a2",
+                                "actionId": "uIIPo2a0",
+                                "outputName": "matches csv",
+                                "schema": "uIIPo2a3",
+                                "groupFields": [
+                                    "winner"
+                                ],
+                                "summaryFields": [{
+                                        "sourceFieldId": "winner",
+                                        "newFieldName": "Wins",
+                                        "newFieldId": "uIIPtlr0",
+                                        "aggFunction": "count"
+                                    }
+                                ]
+                            }
+                        ]
+                    }, {
+                        "elementType": "action",
+                        "actionType": "sort",
+                        "title": "sort",
+                        "id": "uIIPBp90",
+                        "version": 2,
+                        "inputs": [{
+                                "id": "uIIPBp91",
+                                "version": 1,
+                                "itemType": "port",
+                                "elementType": "port",
+                                "portType": "input",
+                                "schema": "uIIPo2a3",
+                                "index": 0,
+                                "parent": "uIIPBp90",
+                                "name": "matches csv"
+                            }
+                        ],
+                        "outputs": [{
+                                "id": "uIIPBp92",
+                                "name": "matches csv",
+                                "elementType": "port",
+                                "portType": "output",
+                                "schema": "uIIPo2a3"
+                            }
+                        ],
+                        "config": [{
+                                "type": "sort",
+                                "portId": "uIIPBp92",
+                                "actionId": "uIIPBp90",
+                                "outputName": "matches csv",
+                                "schema": "uIIPo2a3",
+                                "sortFields": [{
+                                        "fieldId": "uIIPtlr0",
+                                        "isDesc": true
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "connections": [{
+                        "id": "uIIOrAr4",
+                        "version": 1,
+                        "elementType": "connection",
+                        "name": "",
+                        "target": {
+                            "action": "uIIOrAr0",
+                            "input": "uIIOrAr1"
+                        },
+                        "source": {
+                            "action": "7d28172e-b1a8-4862-97f7-3107eced0b08",
+                            "output": "uIIOoGE0"
+                        }
+                    }, {
+                        "id": "uIIOCij3",
+                        "version": 1,
+                        "elementType": "connection",
+                        "name": "",
+                        "target": {
+                            "action": "uIIOCij0",
+                            "input": "uIIOCij1"
+                        },
+                        "source": {
+                            "action": "uIIOrAr0",
+                            "output": "uIIOrAr2"
+                        }
+                    }, {
+                        "id": "uIIP5Ea4",
+                        "version": 1,
+                        "elementType": "connection",
+                        "name": "",
+                        "target": {
+                            "action": "uIIP5Ea0",
+                            "input": "uIIP5Ea1"
+                        },
+                        "source": {
+                            "action": "uIIOCij0",
+                            "output": "uIIOCij2"
+                        }
+                    }, {
+                        "id": "uIIPo2a4",
+                        "version": 1,
+                        "elementType": "connection",
+                        "name": "",
+                        "target": {
+                            "action": "uIIPo2a0",
+                            "input": "uIIPo2a1"
+                        },
+                        "source": {
+                            "action": "uIIP5Ea0",
+                            "output": "uIIP5Ea2"
+                        }
+                    }, {
+                        "id": "uIIPBp93",
+                        "version": 1,
+                        "elementType": "connection",
+                        "name": "",
+                        "target": {
+                            "action": "uIIPBp90",
+                            "input": "uIIPBp91"
+                        },
+                        "source": {
+                            "action": "uIIPo2a0",
+                            "output": "uIIPo2a2"
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "flowInputMappings": [],
+    "studies": [{
+            "elementType": "viewItem",
+            "itemType": "view",
+            "id": "efcba866-2f7d-4ad2-995b-68b6e986af2d",
+            "name": "study1",
+            "order": 0,
+            "width": 1920,
+            "height": 1080,
+            "elements": []
+        }
+    ]
+}

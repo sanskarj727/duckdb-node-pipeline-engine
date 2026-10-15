@@ -1,0 +1,104 @@
+{
+  "id": "demo-arithmetic-safe",
+  "name": "Arithmetic node - 24 SAFE test",
+  "type": "experiment",
+  "runScope": "device",
+  "version": 1,
+  "createdBy": "guest",
+  "dataSources": [
+    {
+      "id": "src-safe",
+      "version": 1,
+      "name": "arithtest",
+      "providerInfo": { "connectionInfo": { "type": "file", "filePath": "data/arithmetic_test.csv", "fileType": "csv", "delimiter": "," } },
+      "elementType": "data-source",
+      "contentInfo": {},
+      "config": [
+        { "type": "source", "portId": "p-out-test", "actionId": "src-safe", "schema": "s-raw", "name": "test csv", "outputName": "test csv" }
+      ]
+    }
+  ],
+  "dataFlows": {
+    "flow": {
+      "executionSide": "client",
+      "elementType": "data-flow",
+      "actionType": "flow",
+      "id": "flow-arith-safe",
+      "version": 1,
+      "sources": [
+        {
+          "id": "src-safe",
+          "version": 1,
+          "name": "arithtest",
+          "title": "arithmetic_test.csv",
+          "elementType": "action",
+          "actionType": "source",
+          "config": [
+            { "type": "source", "portId": "p-out-test", "actionId": "src-safe", "schema": "s-raw", "name": "test csv", "outputName": "test csv" }
+          ],
+          "inputs": [],
+          "outputs": [
+            { "id": "p-out-test", "name": "test csv", "elementType": "port", "portType": "output", "schema": "s-raw" }
+          ],
+          "portType": "input"
+        }
+      ],
+      "schemaDictionary": {
+        "s-raw": { "id": "s-raw", "version": 1, "elementType": "data-table", "name": "raw", "fields": [] },
+        "s-arith": { "id": "s-arith", "version": 1, "elementType": "data-table", "name": "safe_arithmetic", "fields": [] }
+      },
+      "flowModel": {
+        "actions": [
+          {
+            "elementType": "action",
+            "actionType": "arithmetic",
+            "title": "24 SAFE Arithmetic Operations",
+            "id": "a-arith-safe",
+            "version": 1,
+            "inputs": [ { "id": "p-in", "schema": "s-raw", "portType": "input", "parent": "a-arith-safe", "name": "test csv" } ],
+            "outputs": [ { "id": "p-out", "name": "safe_arithmetic", "elementType": "port", "portType": "output", "schema": "s-arith" } ],
+            "config": [
+              {
+                "type": "arithmetic",
+                "steps": [
+                  { "column": "Age", "op": "round", "args": [1], "output": "Age_round1" },
+                  { "column": "Salary", "op": "roundup", "output": "Salary_roundup" },
+                  { "column": "Age", "op": "rounddown", "output": "Age_rounddown" },
+                  { "column": "Salary", "op": "ceiling", "args": [100], "output": "Salary_ceiling100" },
+                  { "column": "Age", "op": "floor", "args": [2], "output": "Age_floor2" },
+                  { "column": "Salary", "op": "mod", "args": [100], "output": "Salary_mod100" },
+                  { "column": "Age", "op": "quotient", "args": [2], "output": "Age_quotient2" },
+                  { "column": "Salary", "op": "int", "output": "Salary_int" },
+                  { "column": "Age", "op": "trunc", "output": "Age_trunc" },
+                  { "column": "Salary", "op": "sign", "output": "Salary_sign" },
+                  { "column": "Age", "op": "sqrt", "output": "Age_sqrt" },
+                  { "column": "Salary", "op": "power", "args": [2], "output": "Salary_sq" },
+                  { "column": "Age", "op": "exp", "output": "Age_exp" },
+                  { "column": "Salary", "op": "ln", "output": "Salary_ln" },
+                  { "column": "Age", "op": "log", "args": [2], "output": "Age_log2" },
+                  { "column": "Age", "op": "fact", "output": "Age_fact" },
+                  { "column": "Age", "op": "combin", "args": [2], "output": "Age_combin2" },
+                  { "column": "Age", "op": "permut", "args": [2], "output": "Age_permut2" },
+                  { "column": "Salary", "op": "rand", "output": "Salary_rand" },
+                  { "column": "Age", "op": "randbetween", "args": [0, 10], "output": "Age_rand0_10" },
+                  { "column": "Age", "op": "pi", "output": "Age_pi" },
+                  { "column": "Salary", "op": "degrees", "output": "Salary_degrees" },
+                  { "column": "Age", "op": "radians", "output": "Age_radians" },
+                  { "column": "Age", "op": "squareroot", "output": "Age_squareroot" },
+                  { "column": "Salary", "op": "cube", "output": "Salary_cube" }
+                ]
+              }
+            ]
+          }
+        ],
+        "connections": [
+          { "id": "c1", "target": { "action": "a-arith-safe", "input": "p-in" }, "source": { "action": "src-safe", "output": "p-out-test" } }
+        ]
+      }
+    }
+  },
+  "flowInputMappings": [],
+  "studies": [
+    { "elementType": "viewItem", "itemType": "view", "id": "view-1", "name": "study1", "order": 0, "width": 1920, "height": 1080, "elements": [] }
+  ]
+}

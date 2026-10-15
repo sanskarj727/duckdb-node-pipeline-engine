@@ -1,0 +1,20 @@
+Name,Department,City,Age,MonthlyIncome,Attrition
+" alice johnson ","Sales"," new york ",29,5200,True
+"BOB SMITH","Engineering","SAN FRANCISCO",34,9800,False
+"cAra mIller","Marketing","los angeles",27,6100,True
+" david lee","Engineering","austin",31,8700,False
+"EMMA DAVIS","Sales","BOSTON",26,5400,True
+"frank o'neal ","Support","seattle",36,7200,False
+"GRACE HOPPER","Engineering","PALO ALTO",45,15000,False
+" henry ford","Sales","detroit",39,8200,True
+"IsAbElLa cruz","Marketing","miami",28,5900,True
+"JACK WHITE","Support","chicago",33,6800,False
+" kelly brown","Sales"," new york ",25,5100,True
+"LIAM O'BRIEN","Engineering","SAN FRANCISCO",37,11200,False
+"mia chen","Marketing","los angeles",30,6400,False
+"NANCY DREW","Support","seattle",29,6050,True
+" oliver stone","Engineering","austin",32,9100,False
+"PATRICIA YOUNG","Sales","BOSTON",41,9900,False
+"quentin blake","Support","chicago",35,7000,True
+" RACHEL GREEN","Marketing","miami",27,5600,False
+"samuel adams ","Engineering","detroit",38,10800,False

@@ -1,0 +1,51 @@
+RowID,Name,Department,City,Age,Salary,Bonus,JoinDate,ExitDate,Rating,Status,Code,Remarks
+1,Alice,sales,New york,28,52000,,2021-03-15,,4.5,ACTIVE,A1, good performer
+2,Bob,Sales,NEW YORK,34,60000,5000,2020-07-09,,3.8,ACTIVE,A1,GOOD performer
+3,Charlie,HR,new york,29,45000,,2019-11-22,,2.1,INACTIVE,B2,Needs improvement
+4,Diana,Marketing,Los Angeles,41,72000,10000,2018-05-30,,4.9,ACTIVE,C3,Top-performer
+5,Edward,finance,SAN FRANCISCO,38,81000,,2017-09-14,,3.2,ACTIVE,D4,
+6,Frank,Finance,San Francisco,38,81000,,2017-09-14,,3.2,ACTIVE,D4,duplicate row
+7,Grace,IT,Bangalore,25,35000,2000,2022-01-10,,4.0,ACTIVE,E5,new joiner
+8,Helen,IT,Bangalore,26,36000,2000,2022-01-10,,4.0,ACTIVE,E5,new joiner
+9,Ian,IT,BANGALORE,27,37000,,2022-01-10,,4.0,ACTIVE,E5,new joiner
+10,Jack,Support,Delhi,31,42000,,2020-02-20,,2.5,ACTIVE,F6,late shifts
+11,Karen,Support,Delhi,31,42000,,2020-02-20,,2.5,ACTIVE,F6,late shifts
+12,Liam,HR,Mumbai,45,90000,15000,2016-06-01,,4.7,ACTIVE,G7,sr manager
+13,Mia,HR,Mumbai,23,25000,,2023-02-01,,1.9,ACTIVE,H8,intern
+14,Nina,HR,Mumbai,23,25000,,2023-02-01,,1.9,ACTIVE,H8,intern
+15,Oscar,Sales,Chennai,52,120000,25000,2010-01-01,,4.8,ACTIVE,I9,veteran
+16,Paul,Sales,Chennai,54,200000,30000,2010-01-01,,4.9,ACTIVE,I9,extreme salary
+17,Quinn,Sales,Chennai,19,15000,,2024-01-01,,2.0,ACTIVE,I9,underage?
+18,Rachel,Marketing,Pune,29,48000,,2021-08-18,,3.6,ACTIVE,J10,
+19,Steve,Marketing,Pune,29,48000,,2021-08-18,,3.6,ACTIVE,J10,
+20,Tina,Marketing,Pune,29,48000,,2021-08-18,,3.6,ACTIVE,J10,
+21,Umar,IT,Hyderabad,33,61000,4000,2019-09-09,,3.9,ACTIVE,K11,consistent
+22,Vera,IT,Hyderabad,33,61000,4000,2019-09-09,,3.9,ACTIVE,K11,consistent
+23,Will,IT,Hyderabad,33,61000,4000,2019-09-09,,3.9,ACTIVE,K11,consistent
+24,Xena,Finance,Kolkata,40,78000,,2018-04-04,,3.4,ACTIVE,L12,
+25,Yash,Finance,Kolkata,40,78000,,2018-04-04,,3.4,ACTIVE,L12,
+26,Zara,Finance,Kolkata,40,78000,,2018-04-04,,3.4,ACTIVE,L12,
+27,Adam,Sales,Jaipur,36,64000,,2019-12-12,,3.1,ACTIVE,M13,
+28,Bella,Sales,Jaipur,36,64000,,2019-12-12,,3.1,ACTIVE,M13,
+29,Carl,Sales,Jaipur,36,64000,,2019-12-12,,3.1,ACTIVE,M13,
+30,Derek,HR,Noida,48,88000,12000,2015-03-03,,4.2,ACTIVE,N14,
+31,Ella,HR,Noida,48,88000,12000,2015-03-03,,4.2,ACTIVE,N14,
+32,Finn,HR,Noida,48,88000,12000,2015-03-03,,4.2,ACTIVE,N14,
+33,Gary,IT,Chandigarh,21,22000,,2024-06-01,,1.8,ACTIVE,O15,trainee
+34,Holly,IT,Chandigarh,21,22000,,2024-06-01,,1.8,ACTIVE,O15,trainee
+35,Irene,IT,Chandigarh,21,22000,,2024-06-01,,1.8,ACTIVE,O15,trainee
+36,John,Support,Indore,39,51000,,2019-10-10,,3.0,ACTIVE,P16,
+37,Kate,Support,Indore,39,51000,,2019-10-10,,3.0,ACTIVE,P16,
+38,Leo,Support,Indore,39,51000,,2019-10-10,,3.0,ACTIVE,P16,
+39,Mona,Marketing,Surat,27,46000,,2022-07-07,,3.7,ACTIVE,Q17,
+40,Nate,Marketing,Surat,27,46000,,2022-07-07,,3.7,ACTIVE,Q17,
+41,Owen,Marketing,Surat,27,46000,,2022-07-07,,3.7,ACTIVE,Q17,
+42,Priya,Sales,Bhopal,35,67000,6000,2019-11-11,,4.1,ACTIVE,R18,
+43,Rahul,Sales,Bhopal,35,67000,6000,2019-11-11,,4.1,ACTIVE,R18,
+44,Sneha,Sales,Bhopal,35,67000,6000,2019-11-11,,4.1,ACTIVE,R18,
+45,Tarun,IT,Gurgaon,30,59000,,2020-05-05,,3.5,ACTIVE,S19,
+46,Usha,IT,Gurgaon,30,59000,,2020-05-05,,3.5,ACTIVE,S19,
+47,Vikas,IT,Gurgaon,30,59000,,2020-05-05,,3.5,ACTIVE,S19,
+48,Wasim,Finance,Patna,60,130000,,2008-01-01,,4.6,ACTIVE,T20,retiring soon
+49,Xavier,Finance,Patna,17,12000,,2024-02-02,,1.5,ACTIVE,T20,invalid age
+50,Yamini,,Lucknow,32,,3000,2021-09-09,,3.3,ACTIVE,U21,missing dept & salary

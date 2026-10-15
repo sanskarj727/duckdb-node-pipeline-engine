@@ -1,0 +1,291 @@
+{
+  "id": "demo-product-and-cleaning-arithmetic",
+  "name": "Demo: product + productsum + clean arithmetic",
+  "type": "experiment",
+  "runScope": "device",
+  "version": 1,
+  "dataSources": [
+    {
+      "id": "ds_demo_csv",
+      "version": 1,
+      "name": "demo_product_ops.csv",
+      "elementType": "data-source",
+      "providerInfo": {
+        "connectionInfo": {
+          "type": "file",
+          "filePath": "data/demo_product_ops.csv",
+          "fileType": "csv",
+          "delimiter": ","
+        }
+      },
+      "config": [
+        {
+          "type": "source",
+          "portId": "p_src_out",
+          "actionId": "ds_demo_csv",
+          "schema": "sch_raw",
+          "name": "demo csv",
+          "outputName": "demo csv"
+        }
+      ]
+    }
+  ],
+  "dataFlows": {
+    "flow": {
+      "executionSide": "client",
+      "elementType": "data-flow",
+      "actionType": "flow",
+      "id": "flow_demo",
+      "version": 1,
+      "sources": [
+        {
+          "id": "ds_demo_csv",
+          "version": 1,
+          "name": "demo_product_ops.csv",
+          "title": "demo_product_ops.csv",
+          "elementType": "action",
+          "actionType": "source",
+          "config": [
+            {
+              "type": "source",
+              "portId": "p_src_out",
+              "actionId": "ds_demo_csv",
+              "schema": "sch_raw",
+              "name": "demo csv",
+              "outputName": "demo csv"
+            }
+          ],
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "p_src_out",
+              "name": "demo csv",
+              "elementType": "port",
+              "portType": "output",
+              "schema": "sch_raw"
+            }
+          ],
+          "portType": "input"
+        }
+      ],
+      "schemaDictionary": {
+        "sch_raw": {
+          "id": "sch_raw",
+          "version": 1,
+          "elementType": "data-table",
+          "name": "raw",
+          "fields": [
+            { "id": "grp", "elementType": "data-field", "name": "grp", "datatype": "string", "usage": { "type": "category" }, "index": 0 },
+            { "id": "x", "elementType": "data-field", "name": "x", "datatype": "number", "usage": { "type": "measure" }, "index": 1 },
+            { "id": "y", "elementType": "data-field", "name": "y", "datatype": "number", "usage": { "type": "measure" }, "index": 2 }
+          ]
+        },
+        "sch_clean": {
+          "id": "sch_clean",
+          "version": 1,
+          "elementType": "data-table",
+          "name": "clean",
+          "baseSchemaId": "sch_raw",
+          "fields": [
+            { "id": "xy", "elementType": "data-field", "name": "xy", "datatype": "number", "usage": { "type": "measure" }, "index": 3 }
+          ]
+        },
+        "sch_summary": {
+          "id": "sch_summary",
+          "version": 1,
+          "elementType": "data-table",
+          "name": "summary",
+          "fields": [
+            { "id": "grp", "elementType": "data-field", "name": "grp", "datatype": "string", "usage": { "type": "category" }, "index": 0 },
+            { "id": "prod_x", "elementType": "data-field", "name": "prod_x", "datatype": "number", "usage": { "type": "measure" }, "index": 1 },
+            { "id": "sumprod_xy", "elementType": "data-field", "name": "sumprod_xy", "datatype": "number", "usage": { "type": "measure" }, "index": 2 },
+            { "id": "sum_xy", "elementType": "data-field", "name": "sum_xy", "datatype": "number", "usage": { "type": "measure" }, "index": 3 }
+          ]
+        }
+      },
+      "flowModel": {
+        "actions": [
+          {
+            "elementType": "action",
+            "actionType": "clean",
+            "title": "clean",
+            "id": "act_clean",
+            "version": 1,
+            "inputs": [
+              {
+                "id": "p_clean_in",
+                "version": 1,
+                "itemType": "port",
+                "elementType": "port",
+                "portType": "input",
+                "schema": "sch_raw",
+                "index": 0,
+                "parent": "act_clean",
+                "name": "demo csv"
+              }
+            ],
+            "outputs": [
+              {
+                "id": "p_clean_out",
+                "name": "clean out",
+                "elementType": "port",
+                "portType": "output",
+                "schema": "sch_raw"
+              }
+            ],
+            "config": [
+              {
+                "type": "clean",
+                "portId": "p_clean_out",
+                "actionId": "act_clean",
+                "outputName": "clean out",
+                "schema": "sch_raw",
+                "arithmetic_ops": []
+              }
+            ]
+          },
+          {
+            "elementType": "action",
+            "actionType": "derive-fields",
+            "title": "derive",
+            "id": "act_derive_xy",
+            "version": 1,
+            "inputs": [
+              {
+                "id": "p_der_in",
+                "version": 1,
+                "itemType": "port",
+                "elementType": "port",
+                "portType": "input",
+                "schema": "sch_raw",
+                "index": 0,
+                "parent": "act_derive_xy",
+                "name": "clean out"
+              }
+            ],
+            "outputs": [
+              {
+                "id": "p_der_out",
+                "name": "derive out",
+                "elementType": "port",
+                "portType": "output",
+                "schema": "sch_clean"
+              }
+            ],
+            "config": [
+              {
+                "type": "derive-fields",
+                "portId": "p_der_out",
+                "actionId": "act_derive_xy",
+                "outputName": "derive out",
+                "schema": "sch_clean",
+                "derivedFields": [
+                  {
+                    "newFieldName": "xy",
+                    "userExpression": "x * y"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "elementType": "action",
+            "actionType": "summarize",
+            "title": "summarize",
+            "id": "act_summary",
+            "version": 1,
+            "inputs": [
+              {
+                "id": "p_sum_in",
+                "version": 1,
+                "itemType": "port",
+                "elementType": "port",
+                "portType": "input",
+                "schema": "sch_clean",
+                "index": 0,
+                "parent": "act_summary",
+                "name": "derive out"
+              }
+            ],
+            "outputs": [
+              {
+                "id": "p_sum_out",
+                "name": "summary out",
+                "elementType": "port",
+                "portType": "output",
+                "schema": "sch_summary"
+              }
+            ],
+            "config": [
+              {
+                "type": "summarize",
+                "portId": "p_sum_out",
+                "actionId": "act_summary",
+                "outputName": "summary out",
+                "schema": "sch_summary",
+                "groupFields": ["grp"],
+                "summaryFields": [
+                  {
+                    "sourceFieldId": "x",
+                    "newFieldName": "prod_x",
+                    "aggFunction": "product"
+                  },
+                  {
+                    "sourceFieldId": "*",
+                    "newFieldName": "sumprod_xy",
+                    "aggFunction": "productsum",
+                    "xFieldId": "x",
+                    "yFieldId": "y"
+                  },
+                  {
+                    "sourceFieldId": "xy",
+                    "newFieldName": "sum_xy",
+                    "aggFunction": "sum"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "connections": [
+          {
+            "id": "c1",
+            "version": 1,
+            "elementType": "connection",
+            "name": "",
+            "target": { "action": "act_clean", "input": "p_clean_in" },
+            "source": { "action": "ds_demo_csv", "output": "p_src_out" }
+          },
+          {
+            "id": "c2",
+            "version": 1,
+            "elementType": "connection",
+            "name": "",
+            "target": { "action": "act_derive_xy", "input": "p_der_in" },
+            "source": { "action": "act_clean", "output": "p_clean_out" }
+          },
+          {
+            "id": "c3",
+            "version": 1,
+            "elementType": "connection",
+            "name": "",
+            "target": { "action": "act_summary", "input": "p_sum_in" },
+            "source": { "action": "act_derive_xy", "output": "p_der_out" }
+          }
+        ]
+      }
+    }
+  },
+  "studies": [
+    {
+      "elementType": "viewItem",
+      "itemType": "view",
+      "id": "study_demo",
+      "name": "study1",
+      "order": 0,
+      "width": 1920,
+      "height": 1080,
+      "elements": []
+    }
+  ]
+}

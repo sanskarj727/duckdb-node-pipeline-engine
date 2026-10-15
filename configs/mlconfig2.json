@@ -1,0 +1,184 @@
+{
+  "id": "attrition-logreg-001",
+  "name": "Attrition Logistic Regression Demo",
+  "type": "experiment",
+  "runScope": "device",
+  "version": 1,
+  "createdBy": "guest",
+  "dataSources": [
+    {
+      "id": "src-attrition",
+      "version": 1,
+      "name": "attrition.csv",
+      "providerInfo": {
+        "connectionInfo": {
+          "type": "file",
+          "filePath": "data/attrition.csv",
+          "fileType": "csv",
+          "delimiter": ","
+        }
+      },
+      "elementType": "data-source",
+      "contentInfo": {},
+      "config": [
+        { "type": "source", "portId": "p-src-out", "actionId": "src-attrition", "schema": "s-raw", "name": "attrition csv", "outputName": "attrition csv" }
+      ]
+    }
+  ],
+  "dataFlows": {
+    "flow": {
+      "executionSide": "client",
+      "elementType": "data-flow",
+      "actionType": "flow",
+      "id": "flow-attrition",
+      "version": 1,
+      "name": "",
+      "inputs": [],
+      "outputs": [],
+      "config": [],
+      "sources": [
+        {
+          "id": "src-attrition",
+          "version": 1,
+          "name": "attrition.csv",
+          "title": "attrition.csv",
+          "elementType": "action",
+          "actionType": "source",
+          "config": [
+            { "type": "source", "portId": "p-src-out", "actionId": "src-attrition", "schema": "s-raw", "name": "attrition csv", "outputName": "attrition csv" }
+          ],
+          "inputs": [],
+          "outputs": [
+            { "id": "p-src-out", "name": "attrition csv", "elementType": "port", "portType": "output", "schema": "s-raw" }
+          ],
+          "portType": "input"
+        }
+      ],
+      "schemaDictionary": {
+        "s-raw": {
+          "id": "s-raw",
+          "version": 1,
+          "elementType": "data-table",
+          "name": "raw",
+          "fields": [
+            { "id": "Age", "elementType": "data-field", "name": "Age", "datatype": "integer", "usage": { "type": "measure" }, "index": 0 },
+            { "id": "Gender", "elementType": "data-field", "name": "Gender", "datatype": "string", "usage": { "type": "category" }, "index": 1 },
+            { "id": "JobSatisfaction", "elementType": "data-field", "name": "JobSatisfaction", "datatype": "integer", "usage": { "type": "measure" }, "index": 2 },
+            { "id": "MonthlyIncome", "elementType": "data-field", "name": "MonthlyIncome", "datatype": "integer", "usage": { "type": "measure" }, "index": 3 },
+            { "id": "Attrition", "elementType": "data-field", "name": "Attrition", "datatype": "string", "usage": { "type": "category" }, "index": 4 }
+          ]
+        },
+        "s-selected": {
+          "id": "s-selected",
+          "version": 1,
+          "elementType": "data-table",
+          "name": "selected",
+          "fields": [
+            { "id": "Age", "elementType": "data-field", "name": "Age", "datatype": "integer", "usage": { "type": "measure" }, "index": 0 },
+            { "id": "Gender", "elementType": "data-field", "name": "Gender", "datatype": "string", "usage": { "type": "category" }, "index": 1 },
+            { "id": "JobSatisfaction", "elementType": "data-field", "name": "JobSatisfaction", "datatype": "integer", "usage": { "type": "measure" }, "index": 2 },
+            { "id": "MonthlyIncome", "elementType": "data-field", "name": "MonthlyIncome", "datatype": "integer", "usage": { "type": "measure" }, "index": 3 },
+            { "id": "Attrition", "elementType": "data-field", "name": "Attrition", "datatype": "string", "usage": { "type": "category" }, "index": 4 }
+          ],
+          "baseSchemaId": "s-raw"
+        },
+        "cls_out": {
+          "id": "cls_out",
+          "version": 1,
+          "elementType": "data-table",
+          "name": "classification_output",
+          "fields": [
+            { "id": "predicted", "elementType": "data-field", "name": "predicted", "datatype": "string", "usage": { "type": "category" }, "index": 0 }
+          ]
+        }
+      },
+      "flowModel": {
+        "actions": [
+          {
+            "elementType": "action",
+            "actionType": "select-fields",
+            "title": "Select",
+            "id": "a-select",
+            "version": 1,
+            "inputs": [
+              { "id": "p-select-in", "version": 1, "itemType": "port", "elementType": "port", "portType": "input", "schema": "s-raw", "index": 0, "parent": "a-select", "name": "attrition csv" }
+            ],
+            "outputs": [
+              { "id": "p-select-out", "name": "selected", "elementType": "port", "portType": "output", "schema": "s-selected" }
+            ],
+            "config": [
+              { "type": "select-fields", "portId": "p-select-out", "actionId": "a-select", "outputName": "selected", "schema": "s-selected", "fieldSelection": ["Age","Gender","JobSatisfaction","MonthlyIncome","Attrition"] }
+            ]
+          },
+          {
+            "elementType": "action",
+            "actionType": "train",
+            "title": "Train",
+            "id": "a-train",
+            "version": 1,
+            "inputs": [
+              { "id": "p-train-in", "version": 1, "itemType": "port", "elementType": "port", "portType": "input", "schema": "s-selected", "index": 0, "parent": "a-train", "name": "selected" }
+            ],
+            "outputs": [
+              { "id": "p-train-out", "name": "train-metrics", "elementType": "port", "portType": "output", "schema": "cls_out" }
+            ],
+            "config": [
+              {
+                "type": "train",
+                "portId": "p-train-out",
+                "actionId": "a-train",
+                "outputName": "train-metrics",
+                "schema": "cls_out",
+                "features": ["Age","Gender","JobSatisfaction","MonthlyIncome"],
+                "target": "Attrition",
+                "standardize": true,
+                "test_size": 0.2,
+                "random_state": 42,
+                "model": "logreg",
+                "model_params": { "solver": "lbfgs", "max_iter": 1000 },
+                "model_path": "models/attrition_lr.joblib",
+                "model_path_versioned": true,
+                "train_returns": "metrics"
+              }
+            ]
+          },
+          {
+            "elementType": "action",
+            "actionType": "predict",
+            "title": "Predict",
+            "id": "a-predict",
+            "version": 1,
+            "inputs": [
+              { "id": "p-predict-in", "version": 1, "itemType": "port", "elementType": "port", "portType": "input", "schema": "s-selected", "index": 0, "parent": "a-predict", "name": "selected" }
+            ],
+            "outputs": [
+              { "id": "p-predict-out", "name": "predictions", "elementType": "port", "portType": "output", "schema": "cls_out" }
+            ],
+            "config": [
+              {
+                "type": "predict",
+                "portId": "p-predict-out",
+                "actionId": "a-predict",
+                "outputName": "predictions",
+                "schema": "cls_out",
+                "features": ["Age","Gender","JobSatisfaction","MonthlyIncome"],
+                "target": "Attrition",
+                "model_path": "models/attrition_lr.joblib",
+                "eval_with_target": true
+              }
+            ]
+          }
+        ],
+        "connections": [
+          { "id": "c1", "version": 1, "elementType": "connection", "name": "", "target": { "action": "a-select", "input": "p-select-in" }, "source": { "action": "src-attrition", "output": "p-src-out" } },
+          { "id": "c2", "version": 1, "elementType": "connection", "name": "", "target": { "action": "a-train", "input": "p-train-in" }, "source": { "action": "a-select", "output": "p-select-out" } },
+          { "id": "c3", "version": 1, "elementType": "connection", "name": "", "target": { "action": "a-predict", "input": "p-predict-in" }, "source": { "action": "a-select", "output": "p-select-out" } }
+        ]
+      }
+    }
+  },
+  "flowInputMappings": [],
+  "studies": [
+    { "elementType": "viewItem", "itemType": "view", "id": "view-1", "name": "study1", "order": 0, "width": 1920, "height": 1080, "elements": [] }
+  ]
+}

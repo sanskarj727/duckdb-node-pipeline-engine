@@ -1,0 +1,321 @@
+{
+  "id": "try-new-actions-001",
+  "name": "Try New Actions (Extraction + Text Manipulation)",
+  "type": "experiment",
+  "runScope": "device",
+  "version": 1,
+  "createdBy": "guest",
+  "dataSources": [
+    {
+      "id": "src-employees",
+      "version": 1,
+      "name": "employees20.csv",
+      "providerInfo": {
+        "connectionInfo": {
+          "type": "file",
+          "filePath": "data/employees20.csv",
+          "fileType": "csv",
+          "delimiter": ","
+        }
+      },
+      "elementType": "data-source",
+      "contentInfo": {},
+      "config": [
+        { "type": "source", "portId": "p-src-out", "actionId": "src-employees", "schema": "s-raw", "name": "employees csv", "outputName": "employees csv" }
+      ]
+    }
+  ],
+  "dataFlows": {
+    "flow": {
+      "executionSide": "client",
+      "elementType": "data-flow",
+      "actionType": "flow",
+      "id": "flow-new-actions",
+      "version": 1,
+      "name": "",
+      "inputs": [],
+      "outputs": [],
+      "config": [],
+      "sources": [
+        {
+          "id": "src-employees",
+          "version": 1,
+          "name": "employees20.csv",
+          "title": "employees20.csv",
+          "elementType": "action",
+          "actionType": "source",
+          "config": [
+            { "type": "source", "portId": "p-src-out", "actionId": "src-employees", "schema": "s-raw", "name": "employees csv", "outputName": "employees csv" }
+          ],
+          "inputs": [],
+          "outputs": [
+            { "id": "p-src-out", "name": "employees csv", "elementType": "port", "portType": "output", "schema": "s-raw" }
+          ],
+          "portType": "input"
+        }
+      ],
+      "schemaDictionary": {
+        "s-raw": {
+          "id": "s-raw",
+          "version": 1,
+          "elementType": "data-table",
+          "name": "raw",
+          "fields": [
+            { "id": "Name", "elementType": "data-field", "name": "Name", "datatype": "string", "usage": { "type": "category" }, "index": 0 },
+            { "id": "Department", "elementType": "data-field", "name": "Department", "datatype": "string", "usage": { "type": "category" }, "index": 1 },
+            { "id": "City", "elementType": "data-field", "name": "City", "datatype": "string", "usage": { "type": "category" }, "index": 2 },
+            { "id": "Age", "elementType": "data-field", "name": "Age", "datatype": "integer", "usage": { "type": "measure" }, "index": 3 },
+            { "id": "MonthlyIncome", "elementType": "data-field", "name": "MonthlyIncome", "datatype": "integer", "usage": { "type": "measure" }, "index": 4 },
+            { "id": "Attrition", "elementType": "data-field", "name": "Attrition", "datatype": "boolean", "usage": { "type": "category" }, "index": 5 }
+          ]
+        },
+        "s-selected1": {
+          "id": "s-selected1",
+          "version": 1,
+          "elementType": "data-table",
+          "name": "selected1",
+          "fields": [
+            { "id": "Name", "elementType": "data-field", "name": "Name", "datatype": "string", "usage": { "type": "category" }, "index": 0 },
+            { "id": "Department", "elementType": "data-field", "name": "Department", "datatype": "string", "usage": { "type": "category" }, "index": 1 },
+            { "id": "City", "elementType": "data-field", "name": "City", "datatype": "string", "usage": { "type": "category" }, "index": 2 },
+            { "id": "Age", "elementType": "data-field", "name": "Age", "datatype": "integer", "usage": { "type": "measure" }, "index": 3 },
+            { "id": "MonthlyIncome", "elementType": "data-field", "name": "MonthlyIncome", "datatype": "integer", "usage": { "type": "measure" }, "index": 4 },
+            { "id": "Attrition", "elementType": "data-field", "name": "Attrition", "datatype": "boolean", "usage": { "type": "category" }, "index": 5 }
+          ],
+          "baseSchemaId": "s-raw"
+        },
+        "s-filtered": {
+          "id": "s-filtered",
+          "version": 1,
+          "elementType": "data-table",
+          "name": "filtered",
+          "fields": [
+            { "id": "Name", "elementType": "data-field", "name": "Name", "datatype": "string", "usage": { "type": "category" }, "index": 0 },
+            { "id": "Department", "elementType": "data-field", "name": "Department", "datatype": "string", "usage": { "type": "category" }, "index": 1 },
+            { "id": "City", "elementType": "data-field", "name": "City", "datatype": "string", "usage": { "type": "category" }, "index": 2 },
+            { "id": "Age", "elementType": "data-field", "name": "Age", "datatype": "integer", "usage": { "type": "measure" }, "index": 3 },
+            { "id": "MonthlyIncome", "elementType": "data-field", "name": "MonthlyIncome", "datatype": "integer", "usage": { "type": "measure" }, "index": 4 },
+            { "id": "Attrition", "elementType": "data-field", "name": "Attrition", "datatype": "boolean", "usage": { "type": "category" }, "index": 5 }
+          ],
+          "baseSchemaId": "s-selected1"
+        },
+        "s-derived": {
+          "id": "s-derived",
+          "version": 1,
+          "elementType": "data-table",
+          "name": "derived",
+          "fields": [
+            { "id": "Name", "elementType": "data-field", "name": "Name", "datatype": "string", "usage": { "type": "category" }, "index": 0 },
+            { "id": "Department", "elementType": "data-field", "name": "Department", "datatype": "string", "usage": { "type": "category" }, "index": 1 },
+            { "id": "City", "elementType": "data-field", "name": "City", "datatype": "string", "usage": { "type": "category" }, "index": 2 },
+            { "id": "Age", "elementType": "data-field", "name": "Age", "datatype": "integer", "usage": { "type": "measure" }, "index": 3 },
+            { "id": "MonthlyIncome", "elementType": "data-field", "name": "MonthlyIncome", "datatype": "integer", "usage": { "type": "measure" }, "index": 4 },
+            { "id": "Attrition", "elementType": "data-field", "name": "Attrition", "datatype": "boolean", "usage": { "type": "category" }, "index": 5 },
+            { "id": "Name_first3", "elementType": "data-field", "name": "Name_first3", "datatype": "string", "usage": { "type": "category" }, "index": 6 },
+            { "id": "City_last2", "elementType": "data-field", "name": "City_last2", "datatype": "string", "usage": { "type": "category" }, "index": 7 },
+            { "id": "Dept_mid", "elementType": "data-field", "name": "Dept_mid", "datatype": "string", "usage": { "type": "category" }, "index": 8 }
+          ],
+          "baseSchemaId": "s-filtered"
+        },
+        "s-texted": {
+          "id": "s-texted",
+          "version": 1,
+          "elementType": "data-table",
+          "name": "texted",
+          "fields": [
+            { "id": "Name", "elementType": "data-field", "name": "Name", "datatype": "string", "usage": { "type": "category" }, "index": 0 },
+            { "id": "Department", "elementType": "data-field", "name": "Department", "datatype": "string", "usage": { "type": "category" }, "index": 1 },
+            { "id": "City", "elementType": "data-field", "name": "City", "datatype": "string", "usage": { "type": "category" }, "index": 2 },
+            { "id": "Age", "elementType": "data-field", "name": "Age", "datatype": "integer", "usage": { "type": "measure" }, "index": 3 },
+            { "id": "MonthlyIncome", "elementType": "data-field", "name": "MonthlyIncome", "datatype": "integer", "usage": { "type": "measure" }, "index": 4 },
+            { "id": "Attrition", "elementType": "data-field", "name": "Attrition", "datatype": "boolean", "usage": { "type": "category" }, "index": 5 }
+          ],
+          "baseSchemaId": "s-derived"
+        },
+        "s-sorted": {
+          "id": "s-sorted",
+          "version": 1,
+          "elementType": "data-table",
+          "name": "sorted",
+          "fields": [
+            { "id": "Name", "elementType": "data-field", "name": "Name", "datatype": "string", "usage": { "type": "category" }, "index": 0 },
+            { "id": "Department", "elementType": "data-field", "name": "Department", "datatype": "string", "usage": { "type": "category" }, "index": 1 },
+            { "id": "City", "elementType": "data-field", "name": "City", "datatype": "string", "usage": { "type": "category" }, "index": 2 },
+            { "id": "Age", "elementType": "data-field", "name": "Age", "datatype": "integer", "usage": { "type": "measure" }, "index": 3 },
+            { "id": "MonthlyIncome", "elementType": "data-field", "name": "MonthlyIncome", "datatype": "integer", "usage": { "type": "measure" }, "index": 4 },
+            { "id": "Attrition", "elementType": "data-field", "name": "Attrition", "datatype": "boolean", "usage": { "type": "category" }, "index": 5 }
+          ],
+          "baseSchemaId": "s-texted"
+        }
+      },
+      "flowModel": {
+        "actions": [
+          {
+            "elementType": "action",
+            "actionType": "select-fields",
+            "title": "Select Initial Columns",
+            "id": "a-select1",
+            "version": 1,
+            "inputs": [
+              { "id": "p-select1-in", "version": 1, "itemType": "port", "elementType": "port", "portType": "input", "schema": "s-raw", "index": 0, "parent": "a-select1", "name": "employees csv" }
+            ],
+            "outputs": [
+              { "id": "p-select1-out", "name": "selected1", "elementType": "port", "portType": "output", "schema": "s-selected1" }
+            ],
+            "config": [
+              {
+                "type": "select-fields",
+                "portId": "p-select1-out",
+                "actionId": "a-select1",
+                "outputName": "selected1",
+                "schema": "s-selected1",
+                "fieldSelection": ["Name","Department","City","Age","MonthlyIncome","Attrition"]
+              }
+            ]
+          },
+          {
+            "elementType": "action",
+            "actionType": "filter",
+            "title": "Filter Income >= 6000",
+            "id": "a-filter",
+            "version": 1,
+            "inputs": [
+              { "id": "p-filter-in", "version": 1, "itemType": "port", "elementType": "port", "portType": "input", "schema": "s-selected1", "index": 0, "parent": "a-filter", "name": "selected1" }
+            ],
+            "outputs": [
+              { "id": "p-filter-out", "name": "filtered", "elementType": "port", "portType": "output", "schema": "s-filtered" }
+            ],
+            "config": [
+              {
+                "type": "filter",
+                "portId": "p-filter-out",
+                "actionId": "a-filter",
+                "outputName": "filtered",
+                "schema": "s-filtered",
+                "userExpression": "MonthlyIncome >= 6000"
+              }
+            ]
+          },
+          {
+            "elementType": "action",
+            "actionType": "derive-fields",
+            "title": "Derive Extraction",
+            "id": "a-derive",
+            "version": 1,
+            "inputs": [
+              { "id": "p-derive-in", "version": 1, "itemType": "port", "elementType": "port", "portType": "input", "schema": "s-filtered", "index": 0, "parent": "a-derive", "name": "filtered" }
+            ],
+            "outputs": [
+              { "id": "p-derive-out", "name": "derived", "elementType": "port", "portType": "output", "schema": "s-derived" }
+            ],
+            "config": [
+              {
+                "type": "derive-fields",
+                "portId": "p-derive-out",
+                "actionId": "a-derive",
+                "outputName": "derived",
+                "schema": "s-derived",
+                "derivedFields": [
+                  { "newFieldName": "Name_first3", "userExpression": "left(Name, 3)" },
+                  { "newFieldName": "City_last2", "userExpression": "right(City, 2)" },
+                  { "newFieldName": "Dept_mid", "userExpression": "mid(Department, 2, 4)" }
+                ]
+              }
+            ]
+          },
+          {
+            "elementType": "action",
+            "actionType": "text-transform",
+            "title": "Text Manipulation",
+            "id": "a-text",
+            "version": 1,
+            "inputs": [
+              { "id": "p-text-in", "version": 1, "itemType": "port", "elementType": "port", "portType": "input", "schema": "s-derived", "index": 0, "parent": "a-text", "name": "derived" }
+            ],
+            "outputs": [
+              { "id": "p-text-out", "name": "texted", "elementType": "port", "portType": "output", "schema": "s-texted" }
+            ],
+            "config": [
+              {
+                "type": "text-transform",
+                "portId": "p-text-out",
+                "actionId": "a-text",
+                "outputName": "texted",
+                "schema": "s-texted",
+                "operation": "substitute",
+                "columns": ["City"],
+                "pattern_old": "SAN",
+                "pattern_new": "San",
+                "keep_others": true
+              }
+            ]
+          },
+          {
+            "elementType": "action",
+            "actionType": "text-transform",
+            "title": "Format Income",
+            "id": "a-text-format",
+            "version": 1,
+            "inputs": [
+              { "id": "p-textf-in", "version": 1, "itemType": "port", "elementType": "port", "portType": "input", "schema": "s-texted", "index": 0, "parent": "a-text-format", "name": "texted" }
+            ],
+            "outputs": [
+              { "id": "p-textf-out", "name": "texted2", "elementType": "port", "portType": "output", "schema": "s-texted" }
+            ],
+            "config": [
+              {
+                "type": "text-transform",
+                "portId": "p-textf-out",
+                "actionId": "a-text-format",
+                "outputName": "texted2",
+                "schema": "s-texted",
+                "operation": "text",
+                "columns": ["MonthlyIncome"],
+                "fmt": "%.2f",
+                "keep_others": true
+              }
+            ]
+          },
+          {
+            "elementType": "action",
+            "actionType": "sort",
+            "title": "Sort by Department, Name",
+            "id": "a-sort",
+            "version": 1,
+            "inputs": [
+              { "id": "p-sort-in", "version": 1, "itemType": "port", "elementType": "port", "portType": "input", "schema": "s-texted", "index": 0, "parent": "a-sort", "name": "texted2" }
+            ],
+            "outputs": [
+              { "id": "p-sort-out", "name": "sorted", "elementType": "port", "portType": "output", "schema": "s-sorted" }
+            ],
+            "config": [
+              {
+                "type": "sort",
+                "portId": "p-sort-out",
+                "actionId": "a-sort",
+                "outputName": "sorted",
+                "schema": "s-sorted",
+                "orderBy": [
+                  { "field": "Department", "direction": "ASC" },
+                  { "field": "Name", "direction": "ASC" }
+                ]
+              }
+            ]
+          }
+        ],
+        "connections": [
+          { "id": "c1", "version": 1, "elementType": "connection", "name": "", "target": { "action": "a-select1", "input": "p-select1-in" }, "source": { "action": "src-employees", "output": "p-src-out" } },
+          { "id": "c2", "version": 1, "elementType": "connection", "name": "", "target": { "action": "a-filter", "input": "p-filter-in" }, "source": { "action": "a-select1", "output": "p-select1-out" } },
+          { "id": "c3", "version": 1, "elementType": "connection", "name": "", "target": { "action": "a-derive", "input": "p-derive-in" }, "source": { "action": "a-filter", "output": "p-filter-out" } },
+          { "id": "c4", "version": 1, "elementType": "connection", "name": "", "target": { "action": "a-text", "input": "p-text-in" }, "source": { "action": "a-derive", "output": "p-derive-out" } },
+          { "id": "c5", "version": 1, "elementType": "connection", "name": "", "target": { "action": "a-text-format", "input": "p-textf-in" }, "source": { "action": "a-text", "output": "p-text-out" } },
+          { "id": "c6", "version": 1, "elementType": "connection", "name": "", "target": { "action": "a-sort", "input": "p-sort-in" }, "source": { "action": "a-text-format", "output": "p-textf-out" } }
+        ]
+      }
+    }
+  },
+  "flowInputMappings": [],
+  "studies": [
+    { "elementType": "viewItem", "itemType": "view", "id": "view-1", "name": "study1", "order": 0, "width": 1920, "height": 1080, "elements": [] }
+  ]
+}

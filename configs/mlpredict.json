@@ -1,0 +1,151 @@
+{
+  "id": "attrition-logreg-infer-attrition2",
+  "name": "Attrition Logistic Regression Infer on attrition2.csv",
+  "type": "experiment",
+  "runScope": "device",
+  "version": 1,
+  "createdBy": "guest",
+  "dataSources": [
+    {
+      "id": "src-attrition2",
+      "version": 1,
+      "name": "attrition2.csv",
+      "providerInfo": {
+        "connectionInfo": {
+          "type": "file",
+          "filePath": "data/attrition2.csv",
+          "fileType": "csv",
+          "delimiter": ","
+        }
+      },
+      "elementType": "data-source",
+      "contentInfo": {},
+      "config": [
+        { "type": "source", "portId": "p-src2-out", "actionId": "src-attrition2", "schema": "s-raw", "name": "attrition2 csv", "outputName": "attrition2 csv" }
+      ]
+    }
+  ],
+  "dataFlows": {
+    "flow": {
+      "executionSide": "client",
+      "elementType": "data-flow",
+      "actionType": "flow",
+      "id": "flow-attrition2-infer",
+      "version": 1,
+      "name": "",
+      "inputs": [],
+      "outputs": [],
+      "config": [],
+      "sources": [
+        {
+          "id": "src-attrition2",
+          "version": 1,
+          "name": "attrition2.csv",
+          "title": "attrition2.csv",
+          "elementType": "action",
+          "actionType": "source",
+          "config": [
+            { "type": "source", "portId": "p-src2-out", "actionId": "src-attrition2", "schema": "s-raw", "name": "attrition2 csv", "outputName": "attrition2 csv" }
+          ],
+          "inputs": [],
+          "outputs": [
+            { "id": "p-src2-out", "name": "attrition2 csv", "elementType": "port", "portType": "output", "schema": "s-raw" }
+          ],
+          "portType": "input"
+        }
+      ],
+      "schemaDictionary": {
+        "s-raw": {
+          "id": "s-raw",
+          "version": 1,
+          "elementType": "data-table",
+          "name": "raw",
+          "fields": [
+            { "id": "Age", "elementType": "data-field", "name": "Age", "datatype": "integer", "usage": { "type": "measure" }, "index": 0 },
+            { "id": "Gender", "elementType": "data-field", "name": "Gender", "datatype": "string", "usage": { "type": "category" }, "index": 1 },
+            { "id": "JobSatisfaction", "elementType": "data-field", "name": "JobSatisfaction", "datatype": "integer", "usage": { "type": "measure" }, "index": 2 },
+            { "id": "MonthlyIncome", "elementType": "data-field", "name": "MonthlyIncome", "datatype": "integer", "usage": { "type": "measure" }, "index": 3 },
+            { "id": "Attrition", "elementType": "data-field", "name": "Attrition", "datatype": "string", "usage": { "type": "category" }, "index": 4 }
+          ]
+        },
+        "s-selected": {
+          "id": "s-selected",
+          "version": 1,
+          "elementType": "data-table",
+          "name": "selected",
+          "fields": [
+            { "id": "Age", "elementType": "data-field", "name": "Age", "datatype": "integer", "usage": { "type": "measure" }, "index": 0 },
+            { "id": "Gender", "elementType": "data-field", "name": "Gender", "datatype": "string", "usage": { "type": "category" }, "index": 1 },
+            { "id": "JobSatisfaction", "elementType": "data-field", "name": "JobSatisfaction", "datatype": "integer", "usage": { "type": "measure" }, "index": 2 },
+            { "id": "MonthlyIncome", "elementType": "data-field", "name": "MonthlyIncome", "datatype": "integer", "usage": { "type": "measure" }, "index": 3 },
+            { "id": "Attrition", "elementType": "data-field", "name": "Attrition", "datatype": "string", "usage": { "type": "category" }, "index": 4 }
+          ],
+          "baseSchemaId": "s-raw"
+        },
+        "cls_out": {
+          "id": "cls_out",
+          "version": 1,
+          "elementType": "data-table",
+          "name": "classification_output",
+          "fields": [
+            { "id": "predicted", "elementType": "data-field", "name": "predicted", "datatype": "string", "usage": { "type": "category" }, "index": 0 }
+          ]
+        }
+      },
+      "flowModel": {
+        "actions": [
+          {
+            "elementType": "action",
+            "actionType": "select-fields",
+            "title": "Select",
+            "id": "a-select2",
+            "version": 1,
+            "inputs": [
+              { "id": "p-select2-in", "version": 1, "itemType": "port", "elementType": "port", "portType": "input", "schema": "s-raw", "index": 0, "parent": "a-select2", "name": "attrition2 csv" }
+            ],
+            "outputs": [
+              { "id": "p-select2-out", "name": "selected", "elementType": "port", "portType": "output", "schema": "s-selected" }
+            ],
+            "config": [
+              { "type": "select-fields", "portId": "p-select2-out", "actionId": "a-select2", "outputName": "selected", "schema": "s-selected", "fieldSelection": ["Age","Gender","JobSatisfaction","MonthlyIncome","Attrition"] }
+            ]
+          },
+          {
+            "elementType": "action",
+            "actionType": "predict",
+            "title": "Predict",
+            "id": "a-predict2",
+            "version": 1,
+            "inputs": [
+              { "id": "p-predict2-in", "version": 1, "itemType": "port", "elementType": "port", "portType": "input", "schema": "s-selected", "index": 0, "parent": "a-predict2", "name": "selected" }
+            ],
+            "outputs": [
+              { "id": "p-predict2-out", "name": "predictions", "elementType": "port", "portType": "output", "schema": "cls_out" }
+            ],
+            "config": [
+              {
+                "type": "predict",
+                "portId": "p-predict2-out",
+                "actionId": "a-predict2",
+                "outputName": "predictions",
+                "schema": "cls_out",
+                "features": ["Age","Gender","JobSatisfaction","MonthlyIncome"],
+                "target": "Attrition",
+                "model_path": "models/attrition_lr_20251012_200248.joblib",
+                "eval_with_target": true
+              }
+            ]
+          }
+        ],
+        "connections": [
+          { "id": "c1", "version": 1, "elementType": "connection", "name": "", "target": { "action": "a-select2", "input": "p-select2-in" }, "source": { "action": "src-attrition2", "output": "p-src2-out" } },
+          { "id": "c2", "version": 1, "elementType": "connection", "name": "", "target": { "action": "a-predict2", "input": "p-predict2-in" }, "source": { "action": "a-select2", "output": "p-select2-out" } }
+        ]
+      }
+    }
+  },
+  "flowInputMappings": [],
+  "studies": [
+    { "elementType": "viewItem", "itemType": "view", "id": "view-1", "name": "study1", "order": 0, "width": 1920, "height": 1080, "elements": [] }
+  ]
+}

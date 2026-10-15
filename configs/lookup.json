@@ -1,0 +1,142 @@
+{
+  "id": "demo-lookup-then-transpose-full",
+  "name": "Lookup pipeline + full transpose",
+  "type": "experiment",
+  "runScope": "device",
+  "version": 1,
+  "createdBy": "guest",
+  "dataSources": [
+    {
+      "id": "src-demo",
+      "version": 1,
+      "name": "lookup_demo.csv",
+      "providerInfo": { "connectionInfo": { "type": "file", "filePath": "data/lookup_demo.csv", "fileType": "csv", "delimiter": "," } },
+      "elementType": "data-source",
+      "contentInfo": {},
+      "config": [
+        { "type": "source", "portId": "p-out-demo", "actionId": "src-demo", "schema": "s-demo", "name": "lookup demo", "outputName": "lookup demo" }
+      ]
+    }
+  ],
+  "dataFlows": {
+    "flow": {
+      "executionSide": "client",
+      "elementType": "data-flow",
+      "actionType": "flow",
+      "id": "flow-lookup-transpose-full",
+      "version": 1,
+      "sources": [
+        {
+          "id": "src-demo",
+          "version": 1,
+          "name": "lookup_demo.csv",
+          "title": "lookup_demo.csv",
+          "elementType": "action",
+          "actionType": "source",
+          "config": [
+            { "type": "source", "portId": "p-out-demo", "actionId": "src-demo", "schema": "s-demo", "name": "lookup demo", "outputName": "lookup demo" }
+          ],
+          "inputs": [],
+          "outputs": [
+            { "id": "p-out-demo", "name": "lookup demo", "elementType": "port", "portType": "output", "schema": "s-demo" }
+          ],
+          "portType": "input"
+        }
+      ],
+      "schemaDictionary": {
+        "s-demo": {
+          "id": "s-demo",
+          "version": 1,
+          "elementType": "data-table",
+          "name": "demo",
+          "fields": [
+            { "id": "Header", "elementType": "data-field", "name": "Header", "datatype": "string", "index": 0 },
+            { "id": "Col2", "elementType": "data-field", "name": "Col2", "datatype": "string", "index": 1 },
+            { "id": "Col3", "elementType": "data-field", "name": "Col3", "datatype": "string", "index": 2 },
+            { "id": "Col4", "elementType": "data-field", "name": "Col4", "datatype": "string", "index": 3 }
+          ]
+        },
+        "s-hlookup":  { "id": "s-hlookup",  "version": 1, "elementType": "data-table", "name": "hlookup",  "fields": [ { "id": "value", "elementType": "data-field", "name": "value", "datatype": "string",  "index": 0 } ] },
+        "s-index":    { "id": "s-index",    "version": 1, "elementType": "data-table", "name": "index",    "fields": [ { "id": "value", "elementType": "data-field", "name": "value", "datatype": "string",  "index": 0 } ] },
+        "s-match":    { "id": "s-match",    "version": 1, "elementType": "data-table", "name": "match",    "fields": [ { "id": "position", "elementType": "data-field", "name": "position", "datatype": "integer", "index": 0 } ] },
+        "s-indirect": { "id": "s-indirect", "version": 1, "elementType": "data-table", "name": "indirect", "fields": [ { "id": "lookup_value", "elementType": "data-field", "name": "lookup_value", "datatype": "string", "index": 0 } ] },
+        "s-tfull":    { "id": "s-tfull",    "version": 1, "elementType": "data-table", "name": "transpose_full", "fields": [] }
+      },
+      "flowModel": {
+        "actions": [
+          {
+            "elementType": "action",
+            "actionType": "lookup",
+            "title": "HLOOKUP Col3 -> row 2",
+            "id": "a-hlookup",
+            "version": 1,
+            "inputs": [ { "id": "p-hl-in", "schema": "s-demo", "portType": "input", "parent": "a-hlookup", "name": "lookup demo" } ],
+            "outputs": [ { "id": "p-hl-out", "name": "hlookup", "elementType": "port", "portType": "output", "schema": "s-hlookup" } ],
+            "config": [
+              { "type": "lookup", "function": "hlookup", "mode": "scalar", "output_col": "value", "order_by": "Header", "args": { "range_table": "lookup_demo_csv", "header_row": 1, "return_row": 2, "lookup_key": "Col3" } }
+            ]
+          },
+          {
+            "elementType": "action",
+            "actionType": "lookup",
+            "title": "INDEX row=3 col=2",
+            "id": "a-index",
+            "version": 1,
+            "inputs": [ { "id": "p-idx-in", "schema": "s-demo", "portType": "input", "parent": "a-index", "name": "lookup demo" } ],
+            "outputs": [ { "id": "p-idx-out", "name": "index", "elementType": "port", "portType": "output", "schema": "s-index" } ],
+            "config": [
+              { "type": "lookup", "function": "index", "mode": "scalar", "output_col": "value", "order_by": "Header", "args": { "range_table": "lookup_demo_csv", "row_num": 3, "col_num": 2 } }
+            ]
+          },
+          {
+            "elementType": "action",
+            "actionType": "lookup",
+            "title": "MATCH Col3='boston'",
+            "id": "a-match",
+            "version": 1,
+            "inputs": [ { "id": "p-mt-in", "schema": "s-demo", "portType": "input", "parent": "a-match", "name": "lookup demo" } ],
+            "outputs": [ { "id": "p-mt-out", "name": "match", "elementType": "port", "portType": "output", "schema": "s-match" } ],
+            "config": [
+              { "type": "lookup", "function": "match", "mode": "scalar", "output_col": "position", "order_by": "Header", "args": { "range_table": "lookup_demo_csv", "target_col": "Col3", "lookup_value": "boston", "normalize": "trim_lower" } }
+            ]
+          },
+          {
+            "elementType": "action",
+            "actionType": "lookup",
+            "title": "INDIRECT Header",
+            "id": "a-indirect",
+            "version": 1,
+            "inputs": [ { "id": "p-ind-in", "schema": "s-demo", "portType": "input", "parent": "a-indirect", "name": "lookup demo" } ],
+            "outputs": [ { "id": "p-ind-out", "name": "indirect", "elementType": "port", "portType": "output", "schema": "s-indirect" } ],
+            "config": [
+              { "type": "lookup", "function": "indirect", "mode": "scalar", "output_col": "lookup_value", "args": { "table": "lookup_demo_csv", "column": "Header" } }
+            ]
+          },
+          {
+            "elementType": "action",
+            "actionType": "transpose",
+            "title": "Transpose full (final)",
+            "id": "a-tfull",
+            "version": 1,
+            "inputs": [ { "id": "p-tfull-in", "schema": "s-demo", "portType": "input", "parent": "a-tfull", "name": "lookup demo" } ],
+            "outputs": [ { "id": "p-tfull-out", "name": "transpose_full", "elementType": "port", "portType": "output", "schema": "s-tfull" } ],
+            "config": [
+              { "type": "transpose", "namePrefix": "T","castType": "VARCHAR" }
+            ]
+          }
+        ],
+        "connections": [
+          { "id": "c1", "target": { "action": "a-hlookup", "input": "p-hl-in" }, "source": { "action": "src-demo", "output": "p-out-demo" } },
+          { "id": "c2", "target": { "action": "a-index", "input": "p-idx-in" }, "source": { "action": "src-demo", "output": "p-out-demo" } },
+          { "id": "c3", "target": { "action": "a-match", "input": "p-mt-in" }, "source": { "action": "src-demo", "output": "p-out-demo" } },
+          { "id": "c4", "target": { "action": "a-indirect", "input": "p-ind-in" }, "source": { "action": "src-demo", "output": "p-out-demo" } },
+          { "id": "c5", "target": { "action": "a-tfull", "input": "p-tfull-in" }, "source": { "action": "src-demo", "output": "p-out-demo" } }
+        ]
+      }
+    }
+  },
+  "flowInputMappings": [],
+  "studies": [
+    { "elementType": "viewItem", "itemType": "view", "id": "view-1", "name": "study1", "order": 0, "width": 1920, "height": 1080, "elements": [] }
+  ]
+}

@@ -1,0 +1,167 @@
+{
+  "id": "demo-derive-logical-001",
+  "name": "Derive logical flags",
+  "type": "experiment",
+  "runScope": "device",
+  "version": 1,
+  "createdBy": "guest",
+  "dataSources": [
+    {
+      "id": "src-datecheck",
+      "version": 1,
+      "name": "datecheck.csv",
+      "providerInfo": {
+        "connectionInfo": {
+          "type": "file",
+          "filePath": "data/datecheck.csv",
+          "fileType": "csv",
+          "delimiter": ","
+        }
+      },
+      "elementType": "data-source",
+      "contentInfo": {},
+      "config": [
+        {
+          "type": "source",
+          "portId": "p-out-datecheck",
+          "actionId": "src-datecheck",
+          "schema": "s-raw",
+          "name": "datecheck csv",
+          "outputName": "datecheck csv"
+        }
+      ]
+    }
+  ],
+  "dataFlows": {
+    "flow": {
+      "executionSide": "client",
+      "elementType": "data-flow",
+      "actionType": "flow",
+      "id": "flow-derive-logical",
+      "version": 1,
+      "sources": [
+        {
+          "id": "src-datecheck",
+          "version": 1,
+          "name": "datecheck.csv",
+          "title": "datecheck.csv",
+          "elementType": "action",
+          "actionType": "source",
+          "config": [
+            {
+              "type": "source",
+              "portId": "p-out-datecheck",
+              "actionId": "src-datecheck",
+              "schema": "s-raw",
+              "name": "datecheck csv",
+              "outputName": "datecheck csv"
+            }
+          ],
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "p-out-datecheck",
+              "name": "datecheck csv",
+              "elementType": "port",
+              "portType": "output",
+              "schema": "s-raw"
+            }
+          ],
+          "portType": "input"
+        }
+      ],
+      "schemaDictionary": {
+        "s-raw": {
+          "id": "s-raw",
+          "version": 1,
+          "elementType": "data-table",
+          "name": "raw",
+          "fields": [
+            { "id": "Name", "elementType": "data-field", "name": "Name", "datatype": "string", "index": 0 },
+            { "id": "Department", "elementType": "data-field", "name": "Department", "datatype": "string", "index": 1 },
+            { "id": "City", "elementType": "data-field", "name": "City", "datatype": "string", "index": 2 },
+            { "id": "Age", "elementType": "data-field", "name": "Age", "datatype": "integer", "index": 3 },
+            { "id": "MonthlyIncome", "elementType": "data-field", "name": "MonthlyIncome", "datatype": "integer", "index": 4 },
+            { "id": "Attrition", "elementType": "data-field", "name": "Attrition", "datatype": "boolean", "index": 5 },
+            { "id": "JoinDate", "elementType": "data-field", "name": "JoinDate", "datatype": "date", "index": 6 }
+          ]
+        },
+        "s-with-flags": {
+          "id": "s-with-flags",
+          "version": 1,
+          "elementType": "data-table",
+          "name": "with_flags",
+          "fields": []
+        }
+      },
+      "flowModel": {
+        "actions": [
+          {
+            "elementType": "action",
+            "actionType": "derive-fields",
+            "title": "Logical flags (derived)",
+            "id": "a-derive-logical",
+            "version": 1,
+            "inputs": [
+              {
+                "id": "p-in",
+                "schema": "s-raw",
+                "portType": "input",
+                "parent": "a-derive-logical",
+                "name": "datecheck csv"
+              }
+            ],
+            "outputs": [
+              {
+                "id": "p-out",
+                "name": "with_flags",
+                "elementType": "port",
+                "portType": "output",
+                "schema": "s-with-flags"
+              }
+            ],
+            "config": [
+              {
+                "type": "derived",
+                "derivedFields": [
+                  {
+                    "userExpression": "AND(Age > 30, MonthlyIncome > 60000, Attrition = true)",
+                    "newFieldName": "AllHighRisk"
+                  },
+                  {
+                    "userExpression": "OR(Department = 'Sales', Department = 'Marketing')",
+                    "newFieldName": "IsSalesOrMarketing"
+                  },
+                  {
+                    "userExpression": "NOT(Attrition = true)",
+                    "newFieldName": "NotAttrition"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "connections": [
+          {
+            "id": "c1",
+            "target": { "action": "a-derive-logical", "input": "p-in" },
+            "source": { "action": "src-datecheck", "output": "p-out-datecheck" }
+          }
+        ]
+      }
+    }
+  },
+  "flowInputMappings": [],
+  "studies": [
+    {
+      "elementType": "viewItem",
+      "itemType": "view",
+      "id": "view-1",
+      "name": "study1",
+      "order": 0,
+      "width": 1920,
+      "height": 1080,
+      "elements": []
+    }
+  ]
+}

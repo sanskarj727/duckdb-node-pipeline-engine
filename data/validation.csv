@@ -1,0 +1,7 @@
+Name,Department,City,Age,MonthlyIncome,Attrition,JoinDate
+Alice,sales,,28,52000,TRUE,2021-03-15
+Bob,123,NEW YORK,thirty,45000,FALSE,2020-07-09
+Charlie,HR,SAN DIEGO,29,45k,TRUE,2019-11-22
+Diana,Marketing,LOS ANGELES,41,,FALSE,2020-01-01
+Eve,IT,BOSTON, ,NaN,TRUE,2021-12-01
+Frank,Ops,CHICAGO,33,error,FALSE,2022-02-10

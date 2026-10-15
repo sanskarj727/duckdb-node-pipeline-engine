@@ -1,0 +1,158 @@
+{
+  "id": "demo-summarize-quartile",
+  "name": "Summarize Income Quartiles",
+  "type": "experiment",
+  "runScope": "device",
+  "version": 1,
+  "createdBy": "guest",
+  "dataSources": [
+    {
+      "id": "src-datecheck",
+      "version": 1,
+      "name": "datecheck.csv",
+      "providerInfo": {
+        "connectionInfo": {
+          "type": "file",
+          "filePath": "data/datecheck.csv",
+          "fileType": "csv",
+          "delimiter": ","
+        }
+      },
+      "elementType": "data-source",
+      "contentInfo": {},
+      "config": [
+        {
+          "type": "source",
+          "portId": "p-out-datecheck",
+          "actionId": "src-datecheck",
+          "schema": "s-raw",
+          "name": "datecheck csv",
+          "outputName": "datecheck csv"
+        }
+      ]
+    }
+  ],
+  "dataFlows": {
+    "flow": {
+      "executionSide": "client",
+      "elementType": "data-flow",
+      "actionType": "flow",
+      "id": "flow-quartile",
+      "version": 1,
+      "sources": [
+        {
+          "id": "src-datecheck",
+          "version": 1,
+          "name": "datecheck.csv",
+          "title": "datecheck.csv",
+          "elementType": "action",
+          "actionType": "source",
+          "config": [
+            {
+              "type": "source",
+              "portId": "p-out-datecheck",
+              "actionId": "src-datecheck",
+              "schema": "s-raw",
+              "name": "datecheck csv",
+              "outputName": "datecheck csv"
+            }
+          ],
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "p-out-datecheck",
+              "name": "datecheck csv",
+              "elementType": "port",
+              "portType": "output",
+              "schema": "s-raw"
+            }
+          ],
+          "portType": "input"
+        }
+      ],
+      "schemaDictionary": {
+        "s-raw": {
+          "id": "s-raw",
+          "version": 1,
+          "elementType": "data-table",
+          "name": "raw",
+          "fields": []
+        },
+        "s-quartile": {
+          "id": "s-quartile",
+          "version": 1,
+          "elementType": "data-table",
+          "name": "stats_quartile",
+          "fields": []
+        }
+      },
+      "flowModel": {
+        "actions": [
+          {
+            "elementType": "action",
+            "actionType": "summarize",
+            "title": "Income Quartiles",
+            "id": "a-stats-income-quartile",
+            "version": 1,
+            "inputs": [
+              {
+                "id": "p-in-qtl",
+                "schema": "s-raw",
+                "portType": "input",
+                "parent": "a-stats-income-quartile",
+                "name": "datecheck csv"
+              }
+            ],
+            "outputs": [
+              {
+                "id": "p-out-qtl",
+                "name": "income_quartiles",
+                "elementType": "port",
+                "portType": "output",
+                "schema": "s-quartile"
+              }
+            ],
+            "config": [
+              {
+                "type": "summarize",
+                "groupFields": [],
+                "summaryFields": [
+                  { "aggFunction": "quartile", "sourceFieldId": "MonthlyIncome", "quartile": 0.25, "newFieldName": "IncomeQ1" },
+                  { "aggFunction": "quartile", "sourceFieldId": "MonthlyIncome", "quartile": 0.5,  "newFieldName": "IncomeQ2" },
+                  { "aggFunction": "quartile", "sourceFieldId": "MonthlyIncome", "quartile": 0.75, "newFieldName": "IncomeQ3" }
+                ]
+              }
+            ]
+          }
+        ],
+        "connections": [
+          {
+            "id": "c1",
+            "target": {
+              "action": "a-stats-income-quartile",
+              "input": "p-in-qtl"
+            },
+            "source": {
+              "action": "src-datecheck",
+              "output": "p-out-datecheck"
+            }
+          }
+        ]
+      }
+    }
+  ,
+  "flowInputMappings": [],
+  "studies": [
+    {
+      "elementType": "viewItem",
+      "itemType": "view",
+      "id": "view-1",
+      "name": "study1",
+      "order": 0,
+      "width": 1920,
+      "height": 1080,
+      "elements": []
+    }
+  ]
+}
+}

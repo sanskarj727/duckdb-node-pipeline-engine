@@ -1,0 +1,287 @@
+{
+  "id": "text-transform-node-demo-001",
+  "name": "Text Transform Node Demo",
+  "type": "experiment",
+  "runScope": "device",
+  "version": 1,
+  "createdBy": "guest",
+  "dataSources": [
+    {
+      "id": "src-employees",
+      "version": 1,
+      "name": "employees20.csv",
+      "providerInfo": {
+        "connectionInfo": {
+          "type": "file",
+          "filePath": "data/employees20.csv",
+          "fileType": "csv",
+          "delimiter": ","
+        }
+      },
+      "elementType": "data-source",
+      "contentInfo": {},
+      "config": [
+        { "type": "source", "portId": "p-src-out", "actionId": "src-employees", "schema": "s-raw", "name": "employees csv", "outputName": "employees csv" }
+      ]
+    }
+  ],
+  "dataFlows": {
+    "flow": {
+      "executionSide": "client",
+      "elementType": "data-flow",
+      "actionType": "flow",
+      "id": "flow-tt",
+      "version": 1,
+      "name": "",
+      "inputs": [],
+      "outputs": [],
+      "config": [],
+      "sources": [
+        {
+          "id": "src-employees",
+          "version": 1,
+          "name": "employees20.csv",
+          "title": "employees20.csv",
+          "elementType": "action",
+          "actionType": "source",
+          "config": [
+            { "type": "source", "portId": "p-src-out", "actionId": "src-employees", "schema": "s-raw", "name": "employees csv", "outputName": "employees csv" }
+          ],
+          "inputs": [],
+          "outputs": [
+            { "id": "p-src-out", "name": "employees csv", "elementType": "port", "portType": "output", "schema": "s-raw" }
+          ],
+          "portType": "input"
+        }
+      ],
+      "schemaDictionary": {
+        "s-raw": {
+          "id": "s-raw",
+          "version": 1,
+          "elementType": "data-table",
+          "name": "raw",
+          "fields": [
+            { "id": "Name", "elementType": "data-field", "name": "Name", "datatype": "string", "usage": { "type": "category" }, "index": 0 },
+            { "id": "Department", "elementType": "data-field", "name": "Department", "datatype": "string", "usage": { "type": "category" }, "index": 1 },
+            { "id": "City", "elementType": "data-field", "name": "City", "datatype": "string", "usage": { "type": "category" }, "index": 2 },
+            { "id": "Age", "elementType": "data-field", "name": "Age", "datatype": "integer", "usage": { "type": "measure" }, "index": 3 },
+            { "id": "MonthlyIncome", "elementType": "data-field", "name": "MonthlyIncome", "datatype": "integer", "usage": { "type": "measure" }, "index": 4 },
+            { "id": "Attrition", "elementType": "data-field", "name": "Attrition", "datatype": "boolean", "usage": { "type": "category" }, "index": 5 }
+          ]
+        },
+        "s-filtered": {
+          "id": "s-filtered",
+          "version": 1,
+          "elementType": "data-table",
+          "name": "filtered",
+          "fields": [
+            { "id": "Name", "elementType": "data-field", "name": "Name", "datatype": "string", "usage": { "type": "category" }, "index": 0 },
+            { "id": "Department", "elementType": "data-field", "name": "Department", "datatype": "string", "usage": { "type": "category" }, "index": 1 },
+            { "id": "City", "elementType": "data-field", "name": "City", "datatype": "string", "usage": { "type": "category" }, "index": 2 },
+            { "id": "Age", "elementType": "data-field", "name": "Age", "datatype": "integer", "usage": { "type": "measure" }, "index": 3 },
+            { "id": "MonthlyIncome", "elementType": "data-field", "name": "MonthlyIncome", "datatype": "integer", "usage": { "type": "measure" }, "index": 4 },
+            { "id": "Attrition", "elementType": "data-field", "name": "Attrition", "datatype": "boolean", "usage": { "type": "category" }, "index": 5 }
+          ],
+          "baseSchemaId": "s-raw"
+        },
+        "s-tt1": {
+          "id": "s-tt1",
+          "version": 1,
+          "elementType": "data-table",
+          "name": "text1",
+          "fields": [
+            { "id": "Name", "elementType": "data-field", "name": "Name", "datatype": "string", "usage": { "type": "category" }, "index": 0 },
+            { "id": "Department", "elementType": "data-field", "name": "Department", "datatype": "string", "usage": { "type": "category" }, "index": 1 },
+            { "id": "City", "elementType": "data-field", "name": "City", "datatype": "string", "usage": { "type": "category" }, "index": 2 },
+            { "id": "Age", "elementType": "data-field", "name": "Age", "datatype": "integer", "usage": { "type": "measure" }, "index": 3 },
+            { "id": "MonthlyIncome", "elementType": "data-field", "name": "MonthlyIncome", "datatype": "integer", "usage": { "type": "measure" }, "index": 4 },
+            { "id": "Attrition", "elementType": "data-field", "name": "Attrition", "datatype": "boolean", "usage": { "type": "category" }, "index": 5 }
+          ],
+          "baseSchemaId": "s-filtered"
+        },
+        "s-tt2": {
+          "id": "s-tt2",
+          "version": 1,
+          "elementType": "data-table",
+          "name": "text2",
+          "fields": [
+            { "id": "Name", "elementType": "data-field", "name": "Name", "datatype": "string", "usage": { "type": "category" }, "index": 0 },
+            { "id": "Department", "elementType": "data-field", "name": "Department", "datatype": "string", "usage": { "type": "category" }, "index": 1 },
+            { "id": "City", "elementType": "data-field", "name": "City", "datatype": "string", "usage": { "type": "category" }, "index": 2 },
+            { "id": "Age", "elementType": "data-field", "name": "Age", "datatype": "integer", "usage": { "type": "measure" }, "index": 3 },
+            { "id": "MonthlyIncome", "elementType": "data-field", "name": "MonthlyIncome", "datatype": "integer", "usage": { "type": "measure" }, "index": 4 },
+            { "id": "Attrition", "elementType": "data-field", "name": "Attrition", "datatype": "boolean", "usage": { "type": "category" }, "index": 5 }
+          ],
+          "baseSchemaId": "s-tt1"
+        },
+        "s-tt3": {
+          "id": "s-tt3",
+          "version": 1,
+          "elementType": "data-table",
+          "name": "text3",
+          "fields": [
+            { "id": "Name", "elementType": "data-field", "name": "Name", "datatype": "string", "usage": { "type": "category" }, "index": 0 },
+            { "id": "Department", "elementType": "data-field", "name": "Department", "datatype": "string", "usage": { "type": "category" }, "index": 1 },
+            { "id": "City", "elementType": "data-field", "name": "City", "datatype": "string", "usage": { "type": "category" }, "index": 2 },
+            { "id": "Age", "elementType": "data-field", "name": "Age", "datatype": "integer", "usage": { "type": "measure" }, "index": 3 },
+            { "id": "MonthlyIncome", "elementType": "data-field", "name": "MonthlyIncome", "datatype": "integer", "usage": { "type": "measure" }, "index": 4 },
+            { "id": "Attrition", "elementType": "data-field", "name": "Attrition", "datatype": "boolean", "usage": { "type": "category" }, "index": 5 }
+          ],
+          "baseSchemaId": "s-tt2"
+        },
+        "s-selected": {
+          "id": "s-selected",
+          "version": 1,
+          "elementType": "data-table",
+          "name": "selected",
+          "fields": [
+            { "id": "Name", "elementType": "data-field", "name": "Name", "datatype": "string", "usage": { "type": "category" }, "index": 0 },
+            { "id": "Department", "elementType": "data-field", "name": "Department", "datatype": "string", "usage": { "type": "category" }, "index": 1 },
+            { "id": "City", "elementType": "data-field", "name": "City", "datatype": "string", "usage": { "type": "category" }, "index": 2 },
+            { "id": "Age", "elementType": "data-field", "name": "Age", "datatype": "integer", "usage": { "type": "measure" }, "index": 3 },
+            { "id": "MonthlyIncome", "elementType": "data-field", "name": "MonthlyIncome", "datatype": "integer", "usage": { "type": "measure" }, "index": 4 },
+            { "id": "Attrition", "elementType": "data-field", "name": "Attrition", "datatype": "boolean", "usage": { "type": "category" }, "index": 5 }
+          ],
+          "baseSchemaId": "s-tt3"
+        }
+      },
+      "flowModel": {
+        "actions": [
+          {
+            "elementType": "action",
+            "actionType": "filter",
+            "title": "Filter by Income >= 6000",
+            "id": "a-filter",
+            "version": 1,
+            "inputs": [
+              { "id": "p-filter-in", "version": 1, "itemType": "port", "elementType": "port", "portType": "input", "schema": "s-raw", "index": 0, "parent": "a-filter", "name": "employees csv" }
+            ],
+            "outputs": [
+              { "id": "p-filter-out", "name": "filtered", "elementType": "port", "portType": "output", "schema": "s-filtered" }
+            ],
+            "config": [
+              {
+                "type": "filter",
+                "portId": "p-filter-out",
+                "actionId": "a-filter",
+                "outputName": "filtered",
+                "schema": "s-filtered",
+                "userExpression": "MonthlyIncome >= 6000"
+              }
+            ]
+          },
+          {
+            "elementType": "action",
+            "actionType": "text-transform",
+            "title": "Trim Name & City",
+            "id": "a-text-trim",
+            "version": 1,
+            "inputs": [
+              { "id": "p-tt1-in", "version": 1, "itemType": "port", "elementType": "port", "portType": "input", "schema": "s-filtered", "index": 0, "parent": "a-text-trim", "name": "filtered" }
+            ],
+            "outputs": [
+              { "id": "p-tt1-out", "name": "text1", "elementType": "port", "portType": "output", "schema": "s-tt1" }
+            ],
+            "config": [
+              {
+                "type": "text-transform",
+                "portId": "p-tt1-out",
+                "actionId": "a-text-trim",
+                "outputName": "text1",
+                "schema": "s-tt1",
+                "operation": "trim",
+                "columns": ["Name","City"],
+                "keep_others": true
+              }
+            ]
+          },
+          {
+            "elementType": "action",
+            "actionType": "text-transform",
+            "title": "Uppercase Department",
+            "id": "a-text-upper",
+            "version": 1,
+            "inputs": [
+              { "id": "p-tt2-in", "version": 1, "itemType": "port", "elementType": "port", "portType": "input", "schema": "s-tt1", "index": 0, "parent": "a-text-upper", "name": "text1" }
+            ],
+            "outputs": [
+              { "id": "p-tt2-out", "name": "text2", "elementType": "port", "portType": "output", "schema": "s-tt2" }
+            ],
+            "config": [
+              {
+                "type": "text-transform",
+                "portId": "p-tt2-out",
+                "actionId": "a-text-upper",
+                "outputName": "text2",
+                "schema": "s-tt2",
+                "operation": "upper",
+                "columns": ["Department"],
+                "keep_others": true
+              }
+            ]
+          },
+          {
+            "elementType": "action",
+            "actionType": "text-transform",
+            "title": "Proper Case City",
+            "id": "a-text-proper",
+            "version": 1,
+            "inputs": [
+              { "id": "p-tt3-in", "version": 1, "itemType": "port", "elementType": "port", "portType": "input", "schema": "s-tt2", "index": 0, "parent": "a-text-proper", "name": "text2" }
+            ],
+            "outputs": [
+              { "id": "p-tt3-out", "name": "text3", "elementType": "port", "portType": "output", "schema": "s-tt3" }
+            ],
+            "config": [
+              {
+                "type": "text-transform",
+                "portId": "p-tt3-out",
+                "actionId": "a-text-proper",
+                "outputName": "text3",
+                "schema": "s-tt3",
+                "operation": "proper",
+                "columns": ["City"],
+                "keep_others": true,
+                "force_python": true
+              }
+            ]
+          },
+          {
+            "elementType": "action",
+            "actionType": "select-fields",
+            "title": "Select Final",
+            "id": "a-select",
+            "version": 1,
+            "inputs": [
+              { "id": "p-select-in", "version": 1, "itemType": "port", "elementType": "port", "portType": "input", "schema": "s-tt3", "index": 0, "parent": "a-select", "name": "text3" }
+            ],
+            "outputs": [
+              { "id": "p-select-out", "name": "selected", "elementType": "port", "portType": "output", "schema": "s-selected" }
+            ],
+            "config": [
+              {
+                "type": "select-fields",
+                "portId": "p-select-out",
+                "actionId": "a-select",
+                "outputName": "selected",
+                "schema": "s-selected",
+                "fieldSelection": ["Name","Department","City","Age","MonthlyIncome","Attrition"]
+              }
+            ]
+          }
+        ],
+        "connections": [
+          { "id": "c1", "version": 1, "elementType": "connection", "name": "", "target": { "action": "a-filter", "input": "p-filter-in" }, "source": { "action": "src-employees", "output": "p-src-out" } },
+          { "id": "c2", "version": 1, "elementType": "connection", "name": "", "target": { "action": "a-text-trim", "input": "p-tt1-in" }, "source": { "action": "a-filter", "output": "p-filter-out" } },
+          { "id": "c3", "version": 1, "elementType": "connection", "name": "", "target": { "action": "a-text-upper", "input": "p-tt2-in" }, "source": { "action": "a-text-trim", "output": "p-tt1-out" } },
+          { "id": "c4", "version": 1, "elementType": "connection", "name": "", "target": { "action": "a-text-proper", "input": "p-tt3-in" }, "source": { "action": "a-text-upper", "output": "p-tt2-out" } },
+          { "id": "c5", "version": 1, "elementType": "connection", "name": "", "target": { "action": "a-select", "input": "p-select-in" }, "source": { "action": "a-text-proper", "output": "p-tt3-out" } }
+        ]
+      }
+    }
+  },
+  "flowInputMappings": [],
+  "studies": [
+    { "elementType": "viewItem", "itemType": "view", "id": "view-1", "name": "study1", "order": 0, "width": 1920, "height": 1080, "elements": [] }
+  ]
+}

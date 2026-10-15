@@ -1,0 +1,153 @@
+{
+  "id": "transpose-from-file-001",
+  "name": "Transpose from CSV",
+  "type": "experiment",
+  "runScope": "device",
+  "version": 1,
+  "createdBy": "guest",
+  "dataSources": [
+    {
+      "id": "src-seq",
+      "version": 1,
+      "name": "seq.csv",
+      "providerInfo": {
+        "connectionInfo": {
+          "type": "file",
+          "filePath": "data/seq.csv",
+          "fileType": "csv",
+          "delimiter": ",",
+          "header": true
+        }
+      },
+      "elementType": "data-source",
+      "contentInfo": {},
+      "config": [
+        {
+          "type": "source",
+          "portId": "p-out-seq",
+          "actionId": "src-seq",
+          "schema": "s-seq",
+          "name": "seq csv",
+          "outputName": "seq csv"
+        }
+      ]
+    }
+  ],
+  "dataFlows": {
+    "flow": {
+      "executionSide": "client",
+      "elementType": "data-flow",
+      "actionType": "flow",
+      "id": "flow-transpose-from-file",
+      "version": 1,
+      "sources": [
+        {
+          "id": "src-seq",
+          "version": 1,
+          "name": "seq.csv",
+          "title": "seq.csv",
+          "elementType": "action",
+          "actionType": "source",
+          "config": [
+            {
+              "type": "source",
+              "portId": "p-out-seq",
+              "actionId": "src-seq",
+              "schema": "s-seq",
+              "name": "seq csv",
+              "outputName": "seq csv"
+            }
+          ],
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "p-out-seq",
+              "name": "seq csv",
+              "elementType": "port",
+              "portType": "output",
+              "schema": "s-seq"
+            }
+          ],
+          "portType": "input"
+        }
+      ],
+      "schemaDictionary": {
+        "s-seq": {
+          "id": "s-seq",
+          "version": 1,
+          "elementType": "data-table",
+          "name": "seq",
+          "fields": [
+            { "id": "col1", "elementType": "data-field", "name": "col1", "datatype": "integer", "index": 0 },
+            { "id": "col2", "elementType": "data-field", "name": "col2", "datatype": "integer", "index": 1 },
+            { "id": "col3", "elementType": "data-field", "name": "col3", "datatype": "integer", "index": 2 }
+          ]
+        },
+        "s-tfull": {
+          "id": "s-tfull",
+          "version": 1,
+          "elementType": "data-table",
+          "name": "transpose_full",
+          "fields": []
+        }
+      },
+      "flowModel": {
+        "actions": [
+          {
+            "elementType": "action",
+            "actionType": "transpose",
+            "title": "Transpose full",
+            "id": "a-tfull",
+            "version": 1,
+            "inputs": [
+              {
+                "id": "p-tfull-in",
+                "schema": "s-seq",
+                "portType": "input",
+                "parent": "a-tfull",
+                "name": "seq csv"
+              }
+            ],
+            "outputs": [
+              {
+                "id": "p-tfull-out",
+                "name": "transpose_full",
+                "elementType": "port",
+                "portType": "output",
+                "schema": "s-tfull"
+              }
+            ],
+            "config": [
+              {
+                "type": "transpose",
+                "namePrefix": "T",
+                "orderBy": null,
+                "castType": "VARCHAR"
+              }
+            ]
+          }
+        ],
+        "connections": [
+          {
+            "id": "c1",
+            "target": { "action": "a-tfull", "input": "p-tfull-in" },
+            "source": { "action": "src-seq", "output": "p-out-seq" }
+          }
+        ]
+      }
+    }
+  ,
+  "flowInputMappings": [],
+  "studies": [
+    {
+      "elementType": "viewItem",
+      "itemType": "view",
+      "id": "view-1",
+      "name": "transpose-view",
+      "order": 0,
+      "width": 1920,
+      "height": 1080,
+      "elements": []
+    }
+  ]
+}}

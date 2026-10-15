@@ -1,0 +1,160 @@
+{
+  "id": "demo-summarize-percentrank",
+  "name": "Summarize Income PercentRank",
+  "type": "experiment",
+  "runScope": "device",
+  "version": 1,
+  "createdBy": "guest",
+  "dataSources": [
+    {
+      "id": "src-datecheck",
+      "version": 1,
+      "name": "datecheck.csv",
+      "providerInfo": {
+        "connectionInfo": {
+          "type": "file",
+          "filePath": "data/datecheck.csv",
+          "fileType": "csv",
+          "delimiter": ","
+        }
+      },
+      "elementType": "data-source",
+      "contentInfo": {},
+      "config": [
+        {
+          "type": "source",
+          "portId": "p-out-datecheck",
+          "actionId": "src-datecheck",
+          "schema": "s-raw",
+          "name": "datecheck csv",
+          "outputName": "datecheck csv"
+        }
+      ]
+    }
+  ],
+  "dataFlows": {
+    "flow": {
+      "executionSide": "client",
+      "elementType": "data-flow",
+      "actionType": "flow",
+      "id": "flow-percentrank",
+      "version": 1,
+      "sources": [
+        {
+          "id": "src-datecheck",
+          "version": 1,
+          "name": "datecheck.csv",
+          "title": "datecheck.csv",
+          "elementType": "action",
+          "actionType": "source",
+          "config": [
+            {
+              "type": "source",
+              "portId": "p-out-datecheck",
+              "actionId": "src-datecheck",
+              "schema": "s-raw",
+              "name": "datecheck csv",
+              "outputName": "datecheck csv"
+            }
+          ],
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "p-out-datecheck",
+              "name": "datecheck csv",
+              "elementType": "port",
+              "portType": "output",
+              "schema": "s-raw"
+            }
+          ],
+          "portType": "input"
+        }
+      ],
+      "schemaDictionary": {
+        "s-raw": {
+          "id": "s-raw",
+          "version": 1,
+          "elementType": "data-table",
+          "name": "raw",
+          "fields": []
+        },
+        "s-percentrank": {
+          "id": "s-percentrank",
+          "version": 1,
+          "elementType": "data-table",
+          "name": "stats_percentrank",
+          "fields": []
+        }
+      },
+      "flowModel": {
+        "actions": [
+          {
+            "elementType": "action",
+            "actionType": "summarize",
+            "title": "Income PercentRank",
+            "id": "a-stats-income-percentrank",
+            "version": 1,
+            "inputs": [
+              {
+                "id": "p-in-prank",
+                "schema": "s-raw",
+                "portType": "input",
+                "parent": "a-stats-income-percentrank",
+                "name": "datecheck csv"
+              }
+            ],
+            "outputs": [
+              {
+                "id": "p-out-prank",
+                "name": "income_percentrank",
+                "elementType": "port",
+                "portType": "output",
+                "schema": "s-percentrank"
+              }
+            ],
+            "config": [
+              {
+                "type": "summarize",
+                "groupFields": [],
+                "summaryFields": [
+                  {
+                    "aggFunction": "percentrank",
+                    "sourceFieldId": "MonthlyIncome",
+                    "newFieldName": "IncomePercentRank"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "connections": [
+          {
+            "id": "c1",
+            "target": {
+              "action": "a-stats-income-percentrank",
+              "input": "p-in-prank"
+            },
+            "source": {
+              "action": "src-datecheck",
+              "output": "p-out-datecheck"
+            }
+          }
+        ]
+      }
+    }
+  ,
+  "flowInputMappings": [],
+  "studies": [
+    {
+      "elementType": "viewItem",
+      "itemType": "view",
+      "id": "view-1",
+      "name": "study1",
+      "order": 0,
+      "width": 1920,
+      "height": 1080,
+      "elements": []
+    }
+  ]
+}
+}

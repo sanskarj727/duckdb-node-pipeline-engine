@@ -1,0 +1,249 @@
+{
+  "id": "sales-clean-demo",
+  "name": "Sales Cleaning Demo",
+  "type": "experiment",
+  "version": 1,
+  "dataSources": [
+    {
+      "id": "src-sales",
+      "version": 1,
+      "name": "sales.csv",
+      "providerInfo": {
+        "connectionInfo": {
+          "type": "file",
+          "filePath": "data/sales.csv",
+          "fileType": "csv",
+          "delimiter": ","
+        }
+      },
+      "elementType": "data-source",
+      "config": {
+        "type": "source",
+        "portId": "src-sales-out",
+        "actionId": "src-sales",
+        "schema": "sales-schema",
+        "outputName": "sales"
+      }
+    }
+  ],
+  "dataFlows": {
+    "flow": {
+      "id": "flow-sales-clean",
+      "name": "Sales clean flow",
+      "version": 1,
+      "elementType": "data-flow",
+      "schemaDictionary": {
+        "sales-schema": {
+          "id": "sales-schema",
+          "version": 1,
+          "elementType": "data-table",
+          "name": "sales",
+          "fields": [
+            { "id": "RowID", "name": "RowID", "datatype": "integer", "usage": "measure", "elementType": "data-field", "index": 0 },
+            { "id": "Name", "name": "Name", "datatype": "string", "usage": "category", "elementType": "data-field", "index": 1 },
+            { "id": "Department", "name": "Department", "datatype": "string", "usage": "category", "elementType": "data-field", "index": 2 },
+            { "id": "City", "name": "City", "datatype": "string", "usage": "category", "elementType": "data-field", "index": 3 },
+            { "id": "Age", "name": "Age", "datatype": "integer", "usage": "measure", "elementType": "data-field", "index": 4 },
+            { "id": "Salary", "name": "Salary", "datatype": "number", "usage": "measure", "elementType": "data-field", "index": 5 },
+            { "id": "Bonus", "name": "Bonus", "datatype": "number", "usage": "measure", "elementType": "data-field", "index": 6 },
+            { "id": "JoinDate", "name": "JoinDate", "datatype": "date", "usage": "time", "elementType": "data-field", "index": 7 },
+            { "id": "ExitDate", "name": "ExitDate", "datatype": "date", "usage": "time", "elementType": "data-field", "index": 8 },
+            { "id": "Rating", "name": "Rating", "datatype": "number", "usage": "measure", "elementType": "data-field", "index": 9 },
+            { "id": "Status", "name": "Status", "datatype": "string", "usage": "category", "elementType": "data-field", "index": 10 },
+            { "id": "Code", "name": "Code", "datatype": "string", "usage": "category", "elementType": "data-field", "index": 11 },
+            { "id": "Remarks", "name": "Remarks", "datatype": "string", "usage": "category", "elementType": "data-field", "index": 12 }
+          ]
+        },
+        "sales-clean-schema": {
+          "id": "sales-clean-schema",
+          "version": 1,
+          "elementType": "data-table",
+          "name": "sales_clean",
+          "fields": [
+            { "id": "RowID", "name": "RowID", "datatype": "integer", "usage": "measure", "elementType": "data-field", "index": 0 },
+            { "id": "Name", "name": "Name", "datatype": "string", "usage": "category", "elementType": "data-field", "index": 1 },
+            { "id": "Department", "name": "Department", "datatype": "string", "usage": "category", "elementType": "data-field", "index": 2 },
+            { "id": "City", "name": "City", "datatype": "string", "usage": "category", "elementType": "data-field", "index": 3 },
+            { "id": "Age", "name": "Age", "datatype": "integer", "usage": "measure", "elementType": "data-field", "index": 4 },
+            { "id": "Salary", "name": "Salary", "datatype": "number", "usage": "measure", "elementType": "data-field", "index": 5 },
+            { "id": "Bonus", "name": "Bonus", "datatype": "number", "usage": "measure", "elementType": "data-field", "index": 6 },
+            { "id": "JoinDate", "name": "JoinDate", "datatype": "date", "usage": "time", "elementType": "data-field", "index": 7 },
+            { "id": "ExitDate", "name": "ExitDate", "datatype": "date", "usage": "time", "elementType": "data-field", "index": 8 },
+            { "id": "Rating", "name": "Rating", "datatype": "number", "usage": "measure", "elementType": "data-field", "index": 9 },
+            { "id": "Status", "name": "Status", "datatype": "string", "usage": "category", "elementType": "data-field", "index": 10 },
+            { "id": "Code", "name": "Code", "datatype": "string", "usage": "category", "elementType": "data-field", "index": 11 },
+            { "id": "Remarks", "name": "Remarks", "datatype": "string", "usage": "category", "elementType": "data-field", "index": 12 },
+            { "id": "StatusFlag", "name": "StatusFlag", "datatype": "boolean", "usage": "category", "elementType": "data-field", "index": 13 },
+            { "id": "IsSalaryNumber", "name": "IsSalaryNumber", "datatype": "boolean", "usage": "category", "elementType": "data-field", "index": 14 }
+          ]
+        }
+      },
+      "flowModel": {
+        "actions": [
+          {
+            "id": "src-sales",
+            "version": 1,
+            "name": "sales.csv",
+            "title": "sales.csv",
+            "elementType": "action",
+            "actionType": "source",
+            "inputs": [],
+            "outputs": [
+              {
+                "id": "src-sales-out",
+                "name": "sales",
+                "elementType": "port",
+                "portType": "output",
+                "schema": "sales-schema"
+              }
+            ],
+            "config": {
+              "type": "source",
+              "portId": "src-sales-out",
+              "actionId": "src-sales",
+              "schema": "sales-schema",
+              "outputName": "sales"
+            }
+          },
+          {
+            "id": "clean-sales",
+            "version": 1,
+            "name": "Clean sales",
+            "title": "Clean sales",
+            "elementType": "action",
+            "actionType": "clean",
+            "inputs": [
+              {
+                "id": "clean-sales-in",
+                "version": 1,
+                "itemType": "port",
+                "elementType": "port",
+                "portType": "input",
+                "schema": "sales-schema",
+                "index": 0,
+                "parent": "clean-sales",
+                "name": "sales in"
+              }
+            ],
+            "outputs": [
+              {
+                "id": "clean-sales-out",
+                "name": "sales_clean",
+                "elementType": "port",
+                "portType": "output",
+                "schema": "sales-clean-schema"
+              }
+            ],
+            "config": {
+              "type": "clean",
+              "portId": "clean-sales-out",
+              "actionId": "clean-sales",
+              "outputName": "sales_clean",
+              "schema": "sales-clean-schema",
+              "dropNulls": {
+                "columns": ["Department", "Salary"]
+              },
+              "fillNulls": {
+                "Salary": {
+                  "strategy": "groupmean",
+                  "partitionBy": ["Department"],
+                  "castAs": "DOUBLE"
+                },
+                "Bonus": {
+                  "strategy": "constant",
+                  "value": 0,
+                  "castAs": "DOUBLE"
+                },
+                "ExitDate": {
+                  "strategy": "constant",
+                  "value": null,
+                  "castAs": "DATE"
+                }
+              },
+              "replacements": {
+                "Department": {
+                  "sales": "Sales",
+                  "finance": "Finance"
+                }
+              },
+              "dropDuplicates": {
+                "subset": ["Name", "Department", "City", "Age", "Salary", "Bonus"]
+              },
+              "constraints": {
+                "Age": {
+                  "min": 18,
+                  "max": 65
+                },
+                "Rating": {
+                  "min": 0.0,
+                  "max": 5.0
+                }
+              },
+              "iqrOutliers": {
+                "columns": ["Salary"],
+                "method": "winsorize",
+                "whisker": 1.5
+              },
+              "operations": [
+                {
+                  "op": "trim",
+                  "columns": ["Remarks"]
+                },
+                {
+                  "op": "proper",
+                  "columns": ["City"]
+                },
+                {
+                  "op": "upper",
+                  "columns": ["Department"]
+                },
+                {
+                  "op": "substitute",
+                  "columns": ["Remarks"],
+                  "old": "performer",
+                  "new": "PERFORMER"
+                },
+                {
+                  "op": "value",
+                  "columns": ["Rating"],
+                  "targetType": "DOUBLE"
+                },
+                {
+                  "op": "left",
+                  "columns": ["Code"],
+                  "n": 1
+                },
+                {
+                  "op": "if",
+                  "columns": ["StatusFlag"],
+                  "expr": "Rating >= 4.5"
+                },
+                {
+                  "op": "isnumber",
+                  "columns": ["Salary"],
+                  "output": "IsSalaryNumber"
+                }
+              ]
+            }
+          }
+        ],
+        "connections": [
+          {
+            "id": "conn-src-clean",
+            "version": 1,
+            "elementType": "connection",
+            "name": "",
+            "source": {
+              "action": "src-sales",
+              "output": "src-sales-out"
+            },
+            "target": {
+              "action": "clean-sales",
+              "input": "clean-sales-in"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

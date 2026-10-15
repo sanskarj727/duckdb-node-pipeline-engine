@@ -1,0 +1,180 @@
+{
+  "id": "demo-derive-datetime-ops",
+  "name": "Demo: derive date/time ops",
+  "type": "experiment",
+  "runScope": "device",
+  "version": 1,
+  "dataSources": [
+    {
+      "id": "ds_demo_csv",
+      "version": 1,
+      "name": "demo_datetime_ops.csv",
+      "elementType": "data-source",
+      "providerInfo": {
+        "connectionInfo": {
+          "type": "file",
+          "filePath": "data/demo_datetime_ops.csv",
+          "fileType": "csv",
+          "delimiter": ","
+        }
+      },
+      "config": [
+        {
+          "type": "source",
+          "portId": "p_src_out",
+          "actionId": "ds_demo_csv",
+          "schema": "sch_raw",
+          "name": "demo csv",
+          "outputName": "demo csv"
+        }
+      ]
+    }
+  ],
+  "dataFlows": {
+    "flow": {
+      "executionSide": "client",
+      "elementType": "data-flow",
+      "actionType": "flow",
+      "id": "flow_demo",
+      "version": 1,
+      "sources": [
+        {
+          "id": "ds_demo_csv",
+          "version": 1,
+          "name": "demo_datetime_ops.csv",
+          "title": "demo_datetime_ops.csv",
+          "elementType": "action",
+          "actionType": "source",
+          "config": [
+            {
+              "type": "source",
+              "portId": "p_src_out",
+              "actionId": "ds_demo_csv",
+              "schema": "sch_raw",
+              "name": "demo csv",
+              "outputName": "demo csv"
+            }
+          ],
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "p_src_out",
+              "name": "demo csv",
+              "elementType": "port",
+              "portType": "output",
+              "schema": "sch_raw"
+            }
+          ],
+          "portType": "input"
+        }
+      ],
+      "schemaDictionary": {
+        "sch_raw": {
+          "id": "sch_raw",
+          "version": 1,
+          "elementType": "data-table",
+          "name": "raw",
+          "fields": [
+            { "id": "Ts", "elementType": "data-field", "name": "Ts", "datatype": "string", "usage": { "type": "category" }, "index": 0 },
+            { "id": "Dt", "elementType": "data-field", "name": "Dt", "datatype": "string", "usage": { "type": "category" }, "index": 1 },
+            { "id": "StartDt", "elementType": "data-field", "name": "StartDt", "datatype": "string", "usage": { "type": "category" }, "index": 2 },
+            { "id": "EndDt", "elementType": "data-field", "name": "EndDt", "datatype": "string", "usage": { "type": "category" }, "index": 3 }
+          ]
+        },
+        "sch_derived": {
+          "id": "sch_derived",
+          "version": 1,
+          "elementType": "data-table",
+          "name": "derived",
+          "baseSchemaId": "sch_raw",
+          "fields": [
+            { "id": "HourTs", "elementType": "data-field", "name": "HourTs", "datatype": "number", "usage": { "type": "measure" }, "index": 4 },
+            { "id": "MinTs", "elementType": "data-field", "name": "MinTs", "datatype": "number", "usage": { "type": "measure" }, "index": 5 },
+            { "id": "SecTs", "elementType": "data-field", "name": "SecTs", "datatype": "number", "usage": { "type": "measure" }, "index": 6 },
+            { "id": "MonthName", "elementType": "data-field", "name": "MonthName", "datatype": "string", "usage": { "type": "category" }, "index": 7 },
+            { "id": "WeekNum", "elementType": "data-field", "name": "WeekNum", "datatype": "number", "usage": { "type": "measure" }, "index": 8 },
+            { "id": "ISOWeekNum", "elementType": "data-field", "name": "ISOWeekNum", "datatype": "number", "usage": { "type": "measure" }, "index": 9 },
+            { "id": "DaysDiff", "elementType": "data-field", "name": "DaysDiff", "datatype": "number", "usage": { "type": "measure" }, "index": 10 },
+            { "id": "EOM0", "elementType": "data-field", "name": "EOM0", "datatype": "string", "usage": { "type": "category" }, "index": 11 },
+            { "id": "EOM1", "elementType": "data-field", "name": "EOM1", "datatype": "string", "usage": { "type": "category" }, "index": 12 }
+          ]
+        }
+      },
+      "flowModel": {
+        "actions": [
+          {
+            "elementType": "action",
+            "actionType": "derive-fields",
+            "title": "derive",
+            "id": "act_derive_dt",
+            "version": 1,
+            "inputs": [
+              {
+                "id": "p_der_in",
+                "version": 1,
+                "itemType": "port",
+                "elementType": "port",
+                "portType": "input",
+                "schema": "sch_raw",
+                "index": 0,
+                "parent": "act_derive_dt",
+                "name": "demo csv"
+              }
+            ],
+            "outputs": [
+              {
+                "id": "p_der_out",
+                "name": "derive out",
+                "elementType": "port",
+                "portType": "output",
+                "schema": "sch_derived"
+              }
+            ],
+            "config": [
+              {
+                "type": "derive-fields",
+                "portId": "p_der_out",
+                "actionId": "act_derive_dt",
+                "outputName": "derive out",
+                "schema": "sch_derived",
+                "derivedFields": [
+                  { "newFieldName": "HourTs", "userExpression": "hour(Ts)" },
+                  { "newFieldName": "MinTs", "userExpression": "minute(Ts)" },
+                  { "newFieldName": "SecTs", "userExpression": "second(Ts)" },
+                  { "newFieldName": "MonthName", "userExpression": "monthname(Dt)" },
+                  { "newFieldName": "WeekNum", "userExpression": "weeknum(Dt)" },
+                  { "newFieldName": "ISOWeekNum", "userExpression": "isoweeknum(Dt)" },
+                  { "newFieldName": "DaysDiff", "userExpression": "days(EndDt, StartDt)" },
+                  { "newFieldName": "EOM0", "userExpression": "eomonth(Dt, 0)" },
+                  { "newFieldName": "EOM1", "userExpression": "eomonth(Dt, 1)" }
+                ]
+              }
+            ]
+          }
+        ],
+        "connections": [
+          {
+            "id": "c1",
+            "version": 1,
+            "elementType": "connection",
+            "name": "",
+            "target": { "action": "act_derive_dt", "input": "p_der_in" },
+            "source": { "action": "ds_demo_csv", "output": "p_src_out" }
+          }
+        ]
+      }
+    }
+  },
+  "studies": [
+    {
+      "elementType": "viewItem",
+      "itemType": "view",
+      "id": "study_demo",
+      "name": "study1",
+      "order": 0,
+      "width": 1920,
+      "height": 1080,
+      "elements": []
+    }
+  ]
+}

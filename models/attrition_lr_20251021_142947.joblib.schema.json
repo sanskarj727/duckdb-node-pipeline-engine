@@ -1,0 +1,16 @@
+{
+  "features": [
+    "Age",
+    "Gender",
+    "JobSatisfaction",
+    "MonthlyIncome"
+  ],
+  "target": "Attrition",
+  "dtypes": {
+    "Age": "int64",
+    "Gender": "object",
+    "JobSatisfaction": "int64",
+    "MonthlyIncome": "int64"
+  },
+  "target_dtype": "string"
+}
